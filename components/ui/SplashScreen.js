@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { profile } from "@/data/profile";
 import { playTvSound, soundPref, startMusic } from "@/lib/sound";
@@ -64,6 +65,12 @@ function RealTV({ phase }) {
 }
 
 export default function SplashScreen() {
+  const pathname = usePathname();
+  if (pathname !== "/") return null; // pas d'intro sur les pages de projet
+  return <Splash />;
+}
+
+function Splash() {
   const { t } = useLanguage();
   const [phase, setPhase] = useState("off"); // off → noise → on → exit → gone
   const phaseRef = useRef("off");

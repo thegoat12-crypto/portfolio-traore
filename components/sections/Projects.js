@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProjectCarousel from "@/components/ui/ProjectCarousel";
 import { TbArrowUpRight, TbLock } from "react-icons/tb";
+import Link from "next/link";
 
 const covers = {
   pink: { bg: "bg-pink", sfx: "text-yellow", num: "text-pink" },
@@ -57,7 +58,12 @@ export default function Projects() {
                       ))}
                     </ul>
 
-                    <div className="mt-auto pt-6">
+                    <div className="mt-auto flex flex-wrap items-center gap-3 pt-6">
+                      {meta.caseStudy && (
+                        <Link href={meta.caseStudy} className="btn-pop panel-solid inline-flex items-center gap-1 bg-yellow px-3 py-1.5 font-display text-sm tracking-wide text-ink">
+                          {t.projects.caseStudy} →
+                        </Link>
+                      )}
                       {meta.github ? (
                         <a
                           href={meta.github}
