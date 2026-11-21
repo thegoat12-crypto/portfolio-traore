@@ -56,6 +56,10 @@ Les captures défilent automatiquement dans la carte du projet (pause au survol)
 
 Sur Vercel, l'URL du site est détectée automatiquement pour les aperçus de partage (image générée par `app/opengraph-image.js`). Sur un autre hébergeur, définir la variable `NEXT_PUBLIC_SITE_URL`.
 
+## Documentation
+
+Le guide complet du code est dans [`docs/GUIDE.md`](docs/GUIDE.md).
+
 ## Vérifications
 
 ```bash
