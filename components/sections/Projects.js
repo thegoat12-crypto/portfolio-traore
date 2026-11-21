@@ -4,12 +4,13 @@ import { profile } from "@/data/profile";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
+import ProjectCarousel from "@/components/ui/ProjectCarousel";
 import { TbArrowUpRight, TbLock } from "react-icons/tb";
 
 const covers = {
-  pink: { bg: "bg-pink", dots: "text-ink", sfx: "text-yellow" },
-  cyan: { bg: "bg-cyan", dots: "text-ink", sfx: "text-pink" },
-  yellow: { bg: "bg-yellow", dots: "text-pink", sfx: "text-cyan" },
+  pink: { bg: "bg-pink", sfx: "text-yellow", num: "text-pink" },
+  cyan: { bg: "bg-cyan", sfx: "text-pink", num: "text-cyan" },
+  yellow: { bg: "bg-yellow", sfx: "text-cyan", num: "text-yellow" },
 };
 
 const tilts = ["-rotate-1", "rotate-1", "-rotate-[0.5deg]"];
@@ -18,8 +19,8 @@ export default function Projects() {
   const { t } = useLanguage();
 
   return (
-    <section id="projets" className="px-6 py-24">
-      <div className="mx-auto max-w-6xl">
+    <section id="projets" className="relative px-6 py-24">
+      <div className="relative mx-auto max-w-6xl">
         <SectionHeading caption={t.projects.caption} eyebrow={t.projects.eyebrow} title={t.projects.title} />
 
         <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -29,21 +30,24 @@ export default function Projects() {
 
             return (
               <Reveal key={meta.id} delay={index * 100} className="h-full">
-                <article className={`group panel flex h-full flex-col bg-transparent ${tilts[index % tilts.length]} transition-transform duration-200 hover:rotate-0`}>
-                  {/* case illustrée : numéro d'épisode + onomatopée au survol */}
-                  <div className={`relative h-40 overflow-hidden border-b-[3px] border-current ${cover.bg}`}>
-                    <div className={`halftone-fade absolute inset-0 ${cover.dots} !opacity-50`} aria-hidden />
-                    <span className="absolute bottom-2 left-4 font-display text-7xl leading-none text-ink/85" aria-hidden>
-                      #{String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className={`sfx absolute right-4 top-6 text-4xl ${cover.sfx}`} aria-hidden>
-                      {project.sfx}
-                    </span>
-                    <span className="caption-box absolute left-3 top-3">{project.year}</span>
-                  </div>
+                <article
+                  className={`group panel relative flex h-full flex-col bg-paper text-ink dark:bg-ink dark:text-paper ${tilts[index % tilts.length]} transition-transform duration-200 hover:-translate-y-1 hover:rotate-0`}
+                >
+                  <ProjectCarousel meta={meta} title={project.title} labels={t.projects} bg={cover.bg} />
+
+                  {/* surimpressions façon BD */}
+                  <span className="caption-box pointer-events-none absolute left-3 top-3 z-10">{project.year}</span>
+                  <span className={`sfx pointer-events-none absolute -right-3 -top-6 z-10 text-5xl ${cover.sfx}`} aria-hidden>
+                    {project.sfx}
+                  </span>
 
                   <div className="flex flex-1 flex-col p-6">
-                    <h3 className="font-display text-2xl font-bold">{project.title}</h3>
+                    <div className="flex items-baseline gap-3">
+                      <span className={`misprint font-display text-3xl leading-none ${cover.num}`} aria-hidden>
+                        #{String(index + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="font-display text-2xl font-bold">{project.title}</h3>
+                    </div>
                     <p className="mt-3 text-sm leading-relaxed opacity-75">{project.text}</p>
 
                     <ul className="mt-4 flex flex-wrap gap-2">
@@ -59,8 +63,8 @@ export default function Projects() {
                         <a
                           href={meta.github}
                           target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1 border-b-2 border-cyan font-display text-sm tracking-wide text-cyan"
+                          rel="noopener noreferrer"
+                          className="btn-pop panel-solid inline-flex items-center gap-1 bg-cyan px-3 py-1.5 font-display text-sm tracking-wide text-ink"
                         >
                           {t.projects.viewGithub} <TbArrowUpRight aria-hidden />
                           <span className="sr-only">{t.meta.newTab}</span>

@@ -117,13 +117,14 @@ h1, h2, h3, h4 {
   opacity: 0.18;
 }
 
+/* légèrement transparent : le décor animé de fond reste visible à travers */
 .section-alt {
   position: relative;
-  background-color: var(--color-paper-alt);
+  background-color: color-mix(in srgb, var(--color-paper-alt) 82%, transparent);
 }
 
 .dark .section-alt {
-  background-color: var(--color-ink-alt);
+  background-color: color-mix(in srgb, var(--color-ink-alt) 82%, transparent);
 }
 
 .section-alt::before {
@@ -258,6 +259,140 @@ h1, h2, h3, h4 {
   transition: opacity 0.5s steps(4), transform 0.5s steps(4);
 }
 
+/* ---------- Décor animé de fond ---------- */
+
+/* le « O » de l'intro se balance au bout de son fil (pivot très haut = fil long) */
+@keyframes swing {
+  0%, 100% { transform: rotate(4deg); }
+  50% { transform: rotate(-4deg); }
+}
+
+.swing {
+  transform-origin: 50% -60vh;
+  animation: swing 2.6s steps(8) infinite;
+}
+
+/* bulles de trame qui dérivent lentement */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(3rem, -2rem) scale(1.06); }
+  66% { transform: translate(-2rem, 2.5rem) scale(0.95); }
+}
+
+.drift {
+  animation: drift 22s steps(24) infinite;
+}
+
+/* éclats de dimensions */
+@keyframes shard {
+  0%, 100% { transform: rotate(var(--rot, 0deg)) translate(0, 0); }
+  50% { transform: rotate(calc(var(--rot, 0deg) + 25deg)) translate(1.5rem, -1rem); }
+}
+
+.shard {
+  animation: shard 18s steps(16) infinite;
+}
+
+/* fils de toile : l'araignée se balance et remonte un peu */
+@keyframes thread {
+  0%, 100% { transform: rotate(3deg) translateY(0); }
+  50% { transform: rotate(-3deg) translateY(-2.5vh); }
+}
+
+.thread {
+  transform-origin: 50% 0;
+  animation: thread 5s steps(6) infinite;
+}
+
+/* fenêtres de la ville qui s'allument et s'éteignent */
+@keyframes blink {
+  0%, 70%, 100% { opacity: 1; }
+  72%, 86% { opacity: 0.15; }
+}
+
+.blink {
+  animation: blink 6s steps(1) infinite;
+}
+
+/* lignes de vitesse façon BD autour du nom */
+.speed-lines {
+  background: repeating-conic-gradient(from 0deg at 28% 38%, currentColor 0deg 0.8deg, transparent 0.8deg 7deg);
+  color: var(--color-ink);
+  opacity: 0.05;
+  -webkit-mask-image: radial-gradient(ellipse at 28% 38%, transparent 18%, black 55%, transparent 80%);
+  mask-image: radial-gradient(ellipse at 28% 38%, transparent 18%, black 55%, transparent 80%);
+  animation: speed-flicker 0.5s steps(2) infinite;
+}
+
+.dark .speed-lines {
+  color: var(--color-paper);
+}
+
+@keyframes speed-flicker {
+  50% { opacity: 0.08; }
+}
+
+/* glitch de dimension : le titre se découpe en tranches toutes les quelques secondes */
+.glitch-auto {
+  position: relative;
+}
+
+.glitch-auto::before,
+.glitch-auto::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  text-shadow: none;
+  opacity: 0;
+}
+
+.glitch-auto::before {
+  color: var(--color-cyan);
+  animation: glitch-a 5s steps(1) infinite;
+}
+
+.glitch-auto::after {
+  color: var(--color-pink);
+  animation: glitch-b 5s steps(1) infinite;
+}
+
+.glitch-late::before,
+.glitch-late::after {
+  animation-delay: 0.35s;
+}
+
+@keyframes glitch-a {
+  0%, 90%, 100% { opacity: 0; transform: none; clip-path: none; }
+  91% { opacity: 1; transform: translate(-0.06em, 0); clip-path: inset(8% 0 62% 0); }
+  93% { opacity: 1; transform: translate(0.05em, 0); clip-path: inset(55% 0 18% 0); }
+  95% { opacity: 1; transform: translate(-0.03em, 0); clip-path: inset(30% 0 45% 0); }
+}
+
+@keyframes glitch-b {
+  0%, 90%, 100% { opacity: 0; transform: none; clip-path: none; }
+  92% { opacity: 1; transform: translate(0.06em, 0); clip-path: inset(40% 0 35% 0); }
+  94% { opacity: 1; transform: translate(-0.05em, 0); clip-path: inset(70% 0 5% 0); }
+  96% { opacity: 1; transform: translate(0.03em, 0); clip-path: inset(12% 0 70% 0); }
+}
+
+/* profondeur au scroll : chaque couche bouge à sa vitesse (CSS pur, sans JavaScript) */
+@supports (animation-timeline: scroll()) {
+  .parallax-slow,
+  .parallax-mid,
+  .parallax-fast {
+    animation: parallax linear both;
+    animation-timeline: scroll(root);
+  }
+  .parallax-slow { --depth: -12vh; }
+  .parallax-mid { --depth: -30vh; }
+  .parallax-fast { --depth: -55vh; }
+}
+
+@keyframes parallax {
+  to { transform: translateY(var(--depth)); }
+}
+
 /* ---------- Barre de progression : un fil de toile qui suit le scroll ---------- */
 
 .scroll-progress {
@@ -316,7 +451,18 @@ h1, h2, h3, h4 {
     animation: none;
   }
 
-  .scroll-progress {
+  .scroll-progress,
+  .bg-fx .thread,
+  .speed-lines,
+  .glitch-auto::before,
+  .glitch-auto::after {
     display: none;
+  }
+
+  .swing,
+  .drift,
+  .shard,
+  .blink {
+    animation: none !important;
   }
 }

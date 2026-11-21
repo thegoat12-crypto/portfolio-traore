@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useCountUp } from "@/hooks/useCountUp";
 import LocalClock from "@/components/ui/LocalClock";
+import HeroScene from "@/components/ui/HeroScene";
 import { TbArrowDown, TbDownload, TbMapPin } from "react-icons/tb";
 
 function Counter({ target, isActive }) {
@@ -42,8 +43,9 @@ export default function Hero() {
   const stats = [skillCount, t.projects.items.length, internships];
 
   return (
-    <section id="top" ref={ref} className="relative overflow-hidden px-6 pb-20 pt-32">
+    <section id="top" ref={ref} className="relative overflow-hidden px-6 pb-64 pt-32 md:pb-80">
       <div className="halftone-fade absolute inset-0 text-cyan" aria-hidden />
+      <HeroScene />
       <WebCorner />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.5fr_1fr]">
@@ -51,8 +53,8 @@ export default function Hero() {
           <p className="font-mono text-xs uppercase tracking-widest opacity-70">{t.hero.role}</p>
 
           <h1 className="misprint mt-3 font-display text-6xl font-bold leading-[0.95] sm:text-7xl md:text-8xl" aria-label={profile.shortName}>
-            <span className="block" aria-hidden>Zié Traoré</span>
-            <span className="block text-pink" aria-hidden>Mhd .jr</span>
+            <span className="glitch-auto block" data-text="Zié Traoré" aria-hidden>Zié Traoré</span>
+            <span className="glitch-auto glitch-late block text-pink" data-text="Mhd .jr" aria-hidden>Mhd .jr</span>
           </h1>
 
           <p className="mt-5 text-2xl opacity-85 md:text-3xl">{t.hero.tagline}</p>

@@ -3,6 +3,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
+import OrgLogo from "@/components/ui/OrgLogo";
 
 export default function Experience() {
   const { t } = useLanguage();
@@ -35,8 +36,13 @@ export default function Experience() {
                       <span className="ml-auto font-mono text-xs opacity-30">#{String(items.length - index).padStart(2, "0")}</span>
                     </div>
 
-                    <h3 className="mt-3 font-display text-2xl font-bold">{item.title}</h3>
-                    <p className="mt-1 text-sm font-medium text-pink">{item.org}</p>
+                    <div className="mt-4 flex items-center gap-4">
+                      <OrgLogo orgKey={item.orgKey} size={56} className="-rotate-6" />
+                      <div>
+                        <h3 className="font-display text-2xl font-bold">{item.title}</h3>
+                        <p className="mt-1 text-sm font-medium text-pink">{item.org}</p>
+                      </div>
+                    </div>
                     <p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-75">{item.text}</p>
                   </article>
                 </Reveal>

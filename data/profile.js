@@ -35,12 +35,26 @@ export const profile = {
     { key: "tools", items: ["Git/GitHub", "Docker", "Vercel"] },
   ],
 
-  // Liens et technos des projets, dans le même ordre que translations.projects.items.
+  // Écoles et entreprises (utilisées par le Parcours et la Formation).
+  // logo: déposez le fichier dans /public/logos/ puis indiquez son chemin,
+  // ex. "/logos/esatic.png" (PNG ou SVG, fond transparent ou blanc, carré de préférence).
+  // Tant que logo vaut null, un badge avec les initiales est affiché.
+  orgs: {
+    esatic: { name: "ESATIC", initials: "ES", color: "cyan", logo: null },
+    iit: { name: "Institut Ivoirien de Technologie", initials: "IIT", color: "yellow", logo: null },
+    blo: { name: "Blo", initials: "BLO", color: "pink", logo: null },
+    ebenyx: { name: "Ebenyx Technologies", initials: "EX", color: "cyan", logo: null },
+    worlddatalab: { name: "World Data Lab", initials: "WDL", color: "yellow", logo: null },
+  },
+
+  // Liens, technos et images des projets, dans le même ordre que translations.projects.items.
   // github: null → pas de bouton (dépôt privé ou inexistant).
+  // images: captures d'écran à déposer dans /public/projets/, ex. ["/projets/parfumerie-1.png", ...].
+  //   Tant que la liste est vide, des illustrations dessinées défilent à la place.
   projects: [
-    { id: "parfumerie", stack: ["Next.js", "React", "Django", "PostgreSQL"], github: "https://github.com/thegoat12-crypto/perfume-ecommerce", color: "pink" },
-    { id: "oquartier", stack: ["Flutter", "Dart"], github: null, color: "cyan" },
-    { id: "flotte", stack: ["Django", "PostgreSQL"], github: null, color: "yellow" },
+    { id: "parfumerie", stack: ["Next.js", "React", "Django", "PostgreSQL"], github: "https://github.com/thegoat12-crypto/perfume-ecommerce", color: "pink", kind: "web", images: [] },
+    { id: "oquartier", stack: ["Flutter", "Dart"], github: null, color: "cyan", kind: "mobile", images: [] },
+    { id: "flotte", stack: ["Django", "PostgreSQL"], github: null, color: "yellow", kind: "dashboard", images: [] },
   ],
 };
 

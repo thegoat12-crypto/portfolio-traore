@@ -3,6 +3,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import SplashScreen from "@/components/ui/SplashScreen";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SkipLink from "@/components/ui/SkipLink";
+import BackgroundFX from "@/components/ui/BackgroundFX";
 import { profile } from "@/data/profile";
 import "./globals.css";
 
@@ -73,12 +74,14 @@ export default function RootLayout({ children }) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
+        {/* "<" échappé : un texte contenant "</script>" ne pourra jamais casser la balise */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }} />
       </head>
       <body>
         <LanguageProvider>
           <SkipLink />
           <div className="scroll-progress" aria-hidden />
+          <BackgroundFX />
           <SplashScreen />
           <CustomCursor />
           {children}

@@ -8,13 +8,16 @@ import { SiPython, SiReact, SiDjango } from "react-icons/si";
 const MIN_DURATION = 1800;
 const FADE_DURATION = 450;
 
-// Le « O » de TRAORÉ : un portail suspendu à un fil de toile
+// Le « O » de TRAORÉ : la vraie lettre (même taille que les autres), suspendue
+// à un fil de toile et qui se balance comme un pendule.
 function PortalO() {
   return (
-    <span className="relative inline-block align-middle" style={{ width: "0.62em", height: "0.62em" }} aria-hidden>
-      <span className="absolute left-1/2 -translate-x-1/2 bottom-full w-[3px] bg-pink" style={{ height: "60vh" }} />
-      <span className="absolute inset-0 rounded-full border-[5px] border-current" />
-      <span className="absolute inset-[22%] rounded-full border-2 border-cyan" />
+    <span className="swing relative inline-block text-pink" aria-hidden>
+      <span
+        className="absolute left-1/2 w-[3px] -translate-x-1/2 bg-pink"
+        style={{ bottom: "calc(100% - 0.12em)", height: "60vh" }}
+      />
+      O
     </span>
   );
 }
@@ -94,13 +97,13 @@ export default function SplashScreen() {
 
       <Sticker Icon={SiReact} color="text-cyan" className="left-6 top-1/3 hidden sm:flex" rotate="-8deg" />
       <Sticker Icon={SiPython} color="text-yellow" className="right-16 top-1/4 hidden md:flex" rotate="10deg" />
-      <Sticker Icon={SiDjango} color="text-pink" className="bottom-1/4 left-16 hidden lg:flex" rotate="6deg" />
+      <Sticker Icon={SiDjango} color="text-pink" className="bottom-[16%] right-[22%] hidden lg:flex" rotate="6deg" />
 
       <div className="relative">
         {/* l'encadré passe au-dessus du fil : le texte n'est plus coupé */}
         <p className="caption-box relative z-10 mb-3">{t.splash.welcome}</p>
 
-        <p className="misprint font-display text-6xl font-bold leading-[0.85] sm:text-7xl md:text-8xl" aria-label="Zié Traoré">
+        <p className="misprint font-display text-6xl font-bold leading-[0.95] sm:text-7xl md:text-9xl" aria-label="Zié Traoré">
           ZIÉ TRA
           <PortalO />
           RÉ
@@ -116,7 +119,7 @@ export default function SplashScreen() {
         <p className="mt-10 font-display text-xs uppercase tracking-widest opacity-60">{t.splash.edition}</p>
       </div>
 
-      <div className="absolute bottom-8 right-8 text-right text-xs opacity-60">
+      <div className="absolute bottom-8 right-8 hidden text-right text-xs opacity-60 sm:block">
         <p className="font-display">{profile.shortName}</p>
         <p>{profile.contact.githubLabel}</p>
       </div>
