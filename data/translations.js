@@ -89,10 +89,12 @@ export const translations = {
     },
     experience: {
       caption: "ÉPISODE 03",
-      eyebrow: "La chronologie, du plus récent au plus ancien",
+      eyebrow: "Le récit, du plus récent au plus ancien",
       title: "PARCOURS & RÉALISATIONS",
       tagInternship: "STAGE",
       tagAchievement: "RÉALISATION",
+      chapter: "CHAPITRE",
+      book: { book: "livre de bande dessinée", title: "Parcours et réalisations", page: "Page", prev: "Page précédente", next: "Page suivante", hint: "Tournez les pages : boutons, flèches du clavier ou glissez du doigt." },
       items: [
         {
           date: "Mai 2026",
@@ -307,6 +309,8 @@ export const translations = {
       title: "JOURNEY & ACHIEVEMENTS",
       tagInternship: "INTERNSHIP",
       tagAchievement: "ACHIEVEMENT",
+      chapter: "CHAPTER",
+      book: { book: "comic book", title: "Journey and achievements", page: "Page", prev: "Previous page", next: "Next page", hint: "Turn the pages: buttons, arrow keys or swipe." },
       items: [
         {
           date: "May 2026",
