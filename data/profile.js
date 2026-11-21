@@ -63,7 +63,7 @@ export const profile = {
   // kind: le type d'illustration affichée tant qu'il n'y a pas de captures (data, ai, web, mobile).
   // images: captures à déposer dans /public/projets/, ex. ["/projets/data-1.png", ...].
   projects: [
-    { id: "data-chomage", stack: ["Python", "Pandas", "NumPy", "SciPy (OLS)", "Matplotlib", "Seaborn", "API Claude"], github: null, color: "cyan", kind: "data", images: ["/projets/data-1.webp", "/projets/data-2.webp", "/projets/data-3.webp", "/projets/data-4.webp", "/projets/data-5.webp"], fit: "contain" },
+    { id: "data-chomage", stack: ["Python", "Pandas", "NumPy", "SciPy (OLS)", "Matplotlib", "Seaborn", "API Claude"], github: "https://github.com/thegoat12-crypto/hackathon-wdl-chomage", color: "cyan", kind: "data", images: ["/projets/data-1.webp", "/projets/data-2.webp", "/projets/data-3.webp", "/projets/data-4.webp", "/projets/data-5.webp"], fit: "contain" },
     { id: "monster", stack: ["Python", "Ollama", "Qwen3 4B (local)", "Recherche web"], github: null, color: "yellow", kind: "ai", images: ["/projets/monster-1.webp", "/projets/monster-2.webp"], fit: "contain", dark: true },
     { id: "parfumerie", stack: ["Next.js", "React", "Django", "PostgreSQL"], github: "https://github.com/thegoat12-crypto/perfume-ecommerce", color: "pink", kind: "web", images: ["/projets/parfum-1.webp", "/projets/parfum-2.webp", "/projets/parfum-3.webp", "/projets/parfum-4.webp"] },
     { id: "oquartier", stack: ["Flutter", "Dart"], github: null, color: "cyan", kind: "mobile", images: [] },
