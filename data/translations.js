@@ -148,13 +148,13 @@ export const translations = {
         {
           title: "Monster — assistant IA personnel",
           year: "2026 · IA",
-          text: "Agent conversationnel qui tourne en local avec Ollama : il dialogue, recherche sur Internet et mémorise les conversations.",
+          text: "Assistant en ligne de commande (MONSTER v2) qui tourne 100 % en local avec Ollama et le modèle Qwen3 4B : il dialogue, fait des recherches sur Internet et retient les conversations grâce à une mémoire automatique (fichiers JSON).",
           sfx: "BZZT!",
         },
         {
-          title: "Parfumerie de luxe",
+          title: "Manus Scents — parfumerie de luxe",
           year: "2026 · Web",
-          text: "Plateforme e-commerce haut de gamme dédiée aux parfums de luxe et de niche, accessible sur le web et mobile.",
+          text: "Boutique e-commerce haut de gamme de parfums de niche : catalogue, fiches produits avec pyramide olfactive, panier, comptes clients et « diagnostic olfactif » pour trouver son parfum. Front Next.js, API Django, application mobile.",
           sfx: "PSHHT!",
         },
         {
@@ -362,13 +362,13 @@ export const translations = {
         {
           title: "Monster — personal AI assistant",
           year: "2026 · AI",
-          text: "Conversational agent running locally with Ollama: it chats, searches the web and remembers past conversations.",
+          text: "Command-line assistant (MONSTER v2) running 100% locally with Ollama and the Qwen3 4B model: it chats, searches the web and remembers conversations through automatic memory (JSON files).",
           sfx: "BZZT!",
         },
         {
-          title: "Luxury Perfume Store",
+          title: "Manus Scents — luxury perfume store",
           year: "2026 · Web",
-          text: "High-end e-commerce platform for luxury and niche perfumes, available on web and mobile.",
+          text: "High-end e-commerce store for niche perfumes: catalogue, product pages with olfactory pyramid, cart, customer accounts and an \"olfactory diagnosis\" to find your scent. Next.js front end, Django API, mobile app.",
           sfx: "PSHHT!",
         },
         {
