@@ -63,7 +63,7 @@ export const profile = {
   // kind: le type d'illustration affichée tant qu'il n'y a pas de captures (data, ai, web, mobile).
   // images: captures à déposer dans /public/projets/, ex. ["/projets/data-1.png", ...].
   projects: [
-    { id: "data-chomage", stack: ["Python", "Pandas", "NumPy", "Matplotlib", "Régression (OLS)"], github: null, color: "cyan", kind: "data", images: [] },
+    { id: "data-chomage", stack: ["Python", "Pandas", "NumPy", "SciPy (OLS)", "Matplotlib", "Seaborn", "API Claude"], github: null, color: "cyan", kind: "data", images: ["/projets/data-1.webp", "/projets/data-2.webp", "/projets/data-3.webp", "/projets/data-4.webp", "/projets/data-5.webp"], fit: "contain" },
     { id: "monster", stack: ["Python", "Ollama", "LLM local"], github: null, color: "yellow", kind: "ai", images: [] },
     { id: "parfumerie", stack: ["Next.js", "React", "Django", "PostgreSQL"], github: "https://github.com/thegoat12-crypto/perfume-ecommerce", color: "pink", kind: "web", images: [] },
     { id: "oquartier", stack: ["Flutter", "Dart"], github: null, color: "cyan", kind: "mobile", images: [] },
