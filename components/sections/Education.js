@@ -17,7 +17,7 @@ export default function Education() {
 
           <ol className="mt-10 space-y-5">
             {t.education.items.map((item, index) => (
-              <Reveal as="li" key={item.title} delay={index * 80}>
+              <li key={item.title} className={index % 2 ? "scroll-in-left" : "scroll-in"}>
                 <div className="panel flex items-center gap-5 p-5">
                   <OrgLogo orgKey={item.orgKey} size={64} className={index % 2 ? "rotate-6" : "-rotate-6"} />
                   <div>
@@ -27,7 +27,7 @@ export default function Education() {
                     {item.note && <p className="mt-1 text-sm italic text-pink">{item.note}</p>}
                   </div>
                 </div>
-              </Reveal>
+              </li>
             ))}
           </ol>
         </div>

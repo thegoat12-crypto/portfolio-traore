@@ -17,7 +17,8 @@ export function useScrollReveal() {
           observer.unobserve(el); // on arrête de surveiller une fois révélé
         }
       },
-      { threshold: 0.15 } // se déclenche quand 15% de l'élément est visible
+      // se déclenche dès que l'élément arrive en bas de l'écran
+      { threshold: 0.01, rootMargin: "0px 0px -8% 0px" }
     );
 
     observer.observe(el);

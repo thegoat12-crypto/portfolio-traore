@@ -13,7 +13,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={() => setDark(!isDark)}
       aria-label={isDark ? t.meta.themeToLight : t.meta.themeToDark}
-      className="btn-pop panel-solid flex items-center gap-1.5 rounded-full bg-yellow px-3 py-1.5 font-display text-xs text-ink"
+      className="btn-pop panel-solid flex items-center gap-1.5 rounded-full bg-ink px-3 py-1.5 font-display text-xs text-paper dark:bg-paper dark:text-ink"
     >
       {isDark ? <TbSun size={14} aria-hidden /> : <TbMoon size={14} aria-hidden />}
       {isDark ? t.meta.themeLight : t.meta.themeDark}

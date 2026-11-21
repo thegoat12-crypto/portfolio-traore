@@ -17,6 +17,12 @@
   --color-ink-alt: #14141f;
 }
 
+:root {
+  /* courbes douces : départ vif, arrivée en douceur */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
@@ -69,7 +75,7 @@ h1, h2, h3, h4 {
 
 /* Bouton qui « saute » vers le lecteur au survol, et s'écrase au clic */
 .btn-pop {
-  transition: transform 0.12s steps(2), box-shadow 0.12s steps(2);
+  transition: transform 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
 }
 
 .btn-pop:hover {
@@ -114,17 +120,17 @@ h1, h2, h3, h4 {
   background-size: 10px 10px;
   -webkit-mask-image: linear-gradient(135deg, black, transparent 70%);
   mask-image: linear-gradient(135deg, black, transparent 70%);
-  opacity: 0.18;
+  opacity: 0.12;
 }
 
-/* légèrement transparent : le décor animé de fond reste visible à travers */
+/* sections alternées opaques : fond net, sans teinte du décor */
 .section-alt {
   position: relative;
-  background-color: color-mix(in srgb, var(--color-paper-alt) 82%, transparent);
+  background-color: var(--color-paper-alt);
 }
 
 .dark .section-alt {
-  background-color: color-mix(in srgb, var(--color-ink-alt) 82%, transparent);
+  background-color: var(--color-ink-alt);
 }
 
 .section-alt::before {
@@ -134,7 +140,7 @@ h1, h2, h3, h4 {
   pointer-events: none;
   background-image: radial-gradient(circle, currentColor 1px, transparent 1.2px);
   background-size: 14px 14px;
-  opacity: 0.06;
+  opacity: 0.04;
 }
 
 /* ---------- Typo « impression décalée » ---------- */
@@ -176,7 +182,7 @@ h1, h2, h3, h4 {
   paint-order: stroke fill;
   text-shadow: 4px 4px 0 var(--color-ink);
   transform: rotate(-12deg) scale(0);
-  transition: transform 0.2s steps(3);
+  transition: transform 0.35s var(--ease-spring);
 }
 
 .group:hover .sfx,
@@ -184,7 +190,7 @@ h1, h2, h3, h4 {
   transform: rotate(-12deg) scale(1);
 }
 
-/* ---------- Animations « on twos » (saccadées, signature du film) ---------- */
+/* ---------- Animations (uniquement transform / opacity : fluides et légères) ---------- */
 
 @keyframes wobble {
   0%, 100% { transform: rotate(var(--r, 0deg)) translateY(0); }
@@ -192,7 +198,7 @@ h1, h2, h3, h4 {
 }
 
 .wobble {
-  animation: wobble 2.4s steps(4) infinite;
+  animation: wobble 4s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
@@ -201,16 +207,18 @@ h1, h2, h3, h4 {
 }
 
 .pulse-dot {
-  animation: pulse-dot 1.6s steps(2) infinite;
+  animation: pulse-dot 1.8s ease-in-out infinite;
 }
 
 @keyframes loading-bar {
-  from { width: 0%; }
-  to { width: 100%; }
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 .animate-loading-bar {
-  animation: loading-bar 1.6s steps(12) forwards;
+  width: 100%;
+  transform-origin: 0 50%;
+  animation: loading-bar 1.6s var(--ease-out) forwards;
 }
 
 @keyframes marquee {
@@ -228,7 +236,7 @@ h1, h2, h3, h4 {
 }
 
 .animate-web-burst {
-  animation: web-burst 0.5s steps(5) forwards;
+  animation: web-burst 0.5s var(--ease-out) forwards;
 }
 
 @keyframes draw-web {
@@ -238,7 +246,7 @@ h1, h2, h3, h4 {
 
 .web-line {
   stroke-dasharray: 400;
-  animation: draw-web 1.8s steps(14) forwards;
+  animation: draw-web 1.6s var(--ease-out) forwards;
 }
 
 @keyframes spin-slow {
@@ -247,16 +255,16 @@ h1, h2, h3, h4 {
 }
 
 .animate-spin-slow {
-  animation: spin-slow 18s steps(90) infinite;
+  animation: spin-slow 30s linear infinite;
 }
 
 .animate-spin-slow:hover {
   animation-play-state: paused;
 }
 
-/* Apparition au scroll, en 4 images */
+/* Apparition au scroll */
 .reveal {
-  transition: opacity 0.5s steps(4), transform 0.5s steps(4);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
 
 /* ---------- Bandeau de compétences ---------- */
@@ -284,7 +292,7 @@ h1, h2, h3, h4 {
 }
 
 .skill-sticker {
-  transition: transform 0.2s steps(3);
+  transition: transform 0.3s var(--ease-spring);
 }
 
 .skill-sticker:hover {
@@ -301,7 +309,7 @@ h1, h2, h3, h4 {
 
 .swing {
   transform-origin: 50% -60vh;
-  animation: swing 2.6s steps(8) infinite;
+  animation: swing 2.8s ease-in-out infinite;
 }
 
 /* bulles de trame qui dérivent lentement */
@@ -312,7 +320,8 @@ h1, h2, h3, h4 {
 }
 
 .drift {
-  animation: drift 22s steps(24) infinite;
+  animation: drift 30s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* éclats de dimensions */
@@ -322,7 +331,8 @@ h1, h2, h3, h4 {
 }
 
 .shard {
-  animation: shard 18s steps(16) infinite;
+  animation: shard 24s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* fils de toile : l'araignée se balance et remonte un peu */
@@ -333,35 +343,31 @@ h1, h2, h3, h4 {
 
 .thread {
   transform-origin: 50% 0;
-  animation: thread 5s steps(6) infinite;
+  animation: thread 6s ease-in-out infinite;
+  will-change: transform;
 }
 
-/* fenêtres de la ville qui s'allument et s'éteignent */
+/* feux des antennes (un seul groupe animé : coût quasi nul) */
 @keyframes blink {
-  0%, 70%, 100% { opacity: 1; }
-  72%, 86% { opacity: 0.15; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
 }
 
 .blink {
-  animation: blink 6s steps(1) infinite;
+  animation: blink 2.4s ease-in-out infinite;
 }
 
 /* lignes de vitesse façon BD autour du nom */
 .speed-lines {
   background: repeating-conic-gradient(from 0deg at 28% 38%, currentColor 0deg 0.8deg, transparent 0.8deg 7deg);
   color: var(--color-ink);
-  opacity: 0.05;
+  opacity: 0.035;
   -webkit-mask-image: radial-gradient(ellipse at 28% 38%, transparent 18%, black 55%, transparent 80%);
   mask-image: radial-gradient(ellipse at 28% 38%, transparent 18%, black 55%, transparent 80%);
-  animation: speed-flicker 0.5s steps(2) infinite;
 }
 
 .dark .speed-lines {
   color: var(--color-paper);
-}
-
-@keyframes speed-flicker {
-  50% { opacity: 0.08; }
 }
 
 /* glitch de dimension : le titre se découpe en tranches toutes les quelques secondes */
@@ -381,31 +387,39 @@ h1, h2, h3, h4 {
 
 .glitch-auto::before {
   color: var(--color-cyan);
-  animation: glitch-a 5s steps(1) infinite;
 }
 
 .glitch-auto::after {
   color: var(--color-pink);
-  animation: glitch-b 5s steps(1) infinite;
 }
 
-.glitch-late::before,
-.glitch-late::after {
-  animation-delay: 0.35s;
+/* la salve ne tourne que lorsque le titre reçoit la classe .glitching (0,45 s toutes
+   les 7 s, posée par le composant Hero) : rien ne s'exécute le reste du temps */
+.glitching .glitch-auto::before {
+  animation: glitch-a 0.45s steps(1) 1;
+}
+
+.glitching .glitch-auto::after {
+  animation: glitch-b 0.45s steps(1) 1;
+}
+
+.glitching .glitch-late::before,
+.glitching .glitch-late::after {
+  animation-delay: 0.08s;
 }
 
 @keyframes glitch-a {
-  0%, 90%, 100% { opacity: 0; transform: none; clip-path: none; }
-  91% { opacity: 1; transform: translate(-0.06em, 0); clip-path: inset(8% 0 62% 0); }
-  93% { opacity: 1; transform: translate(0.05em, 0); clip-path: inset(55% 0 18% 0); }
-  95% { opacity: 1; transform: translate(-0.03em, 0); clip-path: inset(30% 0 45% 0); }
+  0% { opacity: 1; transform: translate(-0.06em, 0); clip-path: inset(8% 0 62% 0); }
+  30% { opacity: 1; transform: translate(0.05em, 0); clip-path: inset(55% 0 18% 0); }
+  60% { opacity: 1; transform: translate(-0.03em, 0); clip-path: inset(30% 0 45% 0); }
+  90%, 100% { opacity: 0; transform: none; clip-path: none; }
 }
 
 @keyframes glitch-b {
-  0%, 90%, 100% { opacity: 0; transform: none; clip-path: none; }
-  92% { opacity: 1; transform: translate(0.06em, 0); clip-path: inset(40% 0 35% 0); }
-  94% { opacity: 1; transform: translate(-0.05em, 0); clip-path: inset(70% 0 5% 0); }
-  96% { opacity: 1; transform: translate(0.03em, 0); clip-path: inset(12% 0 70% 0); }
+  0% { opacity: 1; transform: translate(0.06em, 0); clip-path: inset(40% 0 35% 0); }
+  30% { opacity: 1; transform: translate(-0.05em, 0); clip-path: inset(70% 0 5% 0); }
+  60% { opacity: 1; transform: translate(0.03em, 0); clip-path: inset(12% 0 70% 0); }
+  90%, 100% { opacity: 0; transform: none; clip-path: none; }
 }
 
 /* profondeur au scroll : chaque couche bouge à sa vitesse (CSS pur, sans JavaScript) */
@@ -423,6 +437,65 @@ h1, h2, h3, h4 {
 
 @keyframes parallax {
   to { transform: translateY(var(--depth)); }
+}
+
+/* ---------- Animations liées au défilement (Parcours, Réalisations, Projets…) ----------
+   Pilotées par la position de scroll elle-même (animation-timeline: view()) :
+   aucune ligne de JavaScript, exécutées par le compositeur, donc fluides.
+   Navigateurs sans support : contenu simplement affiché. */
+
+@supports (animation-timeline: view()) {
+  .scroll-in,
+  .scroll-in-left,
+  .scroll-pop,
+  .scroll-line {
+    animation-fill-mode: both;
+    animation-timing-function: linear;
+    animation-timeline: view();
+  }
+
+  .scroll-in {
+    animation-name: scroll-in;
+    animation-range: entry 0% entry 70%;
+  }
+
+  .scroll-in-left {
+    animation-name: scroll-in-left;
+    animation-range: entry 0% entry 70%;
+  }
+
+  .scroll-pop {
+    animation-name: scroll-pop;
+    animation-range: entry 20% entry 90%;
+  }
+
+  /* la frise se dessine au fur et à mesure qu'on descend */
+  .scroll-line {
+    animation-name: scroll-line;
+    animation-range: entry 10% exit 40%;
+    transform-origin: 50% 0;
+  }
+}
+
+@keyframes scroll-in {
+  from { opacity: 0; transform: translate3d(3rem, 1.5rem, 0) rotate(1.5deg); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes scroll-in-left {
+  from { opacity: 0; transform: translate3d(-3rem, 1.5rem, 0) rotate(-1.5deg); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes scroll-pop {
+  from { opacity: 0; transform: scale(0.3) rotate(-25deg); }
+  70% { opacity: 1; transform: scale(1.15) rotate(6deg); }
+  to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes scroll-line {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
 }
 
 /* ---------- Barre de progression : un fil de toile qui suit le scroll ---------- */
@@ -496,7 +569,11 @@ h1, h2, h3, h4 {
   .swing,
   .drift,
   .shard,
-  .blink {
+  .blink,
+  .scroll-in,
+  .scroll-in-left,
+  .scroll-pop,
+  .scroll-line {
     animation: none !important;
   }
 }

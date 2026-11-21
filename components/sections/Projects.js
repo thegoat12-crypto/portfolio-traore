@@ -2,7 +2,6 @@
 
 import { profile } from "@/data/profile";
 import { useLanguage } from "@/contexts/LanguageContext";
-import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProjectCarousel from "@/components/ui/ProjectCarousel";
 import { TbArrowUpRight, TbLock } from "react-icons/tb";
@@ -29,7 +28,7 @@ export default function Projects() {
             const cover = covers[meta.color];
 
             return (
-              <Reveal key={meta.id} delay={index * 100} className="h-full">
+              <div key={meta.id} className={`h-full ${index % 2 ? "scroll-in" : "scroll-in-left"}`}>
                 <article
                   className={`group panel relative flex h-full flex-col bg-paper text-ink dark:bg-ink dark:text-paper ${tilts[index % tilts.length]} transition-transform duration-200 hover:-translate-y-1 hover:rotate-0`}
                 >
@@ -77,7 +76,7 @@ export default function Projects() {
                     </div>
                   </div>
                 </article>
-              </Reveal>
+              </div>
             );
           })}
         </div>
