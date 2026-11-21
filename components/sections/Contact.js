@@ -14,18 +14,51 @@ const inputClass =
 
 export default function Contact() {
   const { t } = useLanguage();
-  const [form, setForm] = useState({ name: "", subject: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", botcheck: false });
+  const [status, setStatus] = useState("idle"); // idle → sending → sent | error
   const [copied, setCopied] = useState(false);
 
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, type, checked, value } = e.target;
+    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function openMailApp() {
     const subject = encodeURIComponent(form.subject || t.contact.defaultSubject);
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name || t.contact.anonymous}`);
+    const body = encodeURIComponent(`${form.message}\n\n— ${form.name || t.contact.anonymous}${form.email ? ` (${form.email})` : ""}`);
     window.location.href = `mailto:${profile.contact.email}?subject=${subject}&body=${body}`;
+  }
+
+  // Envoi direct via Web3Forms (le message arrive dans la boîte mail du propriétaire).
+  // Sans clé configurée ou en cas d'échec : repli sur la messagerie du visiteur.
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (form.botcheck) return; // piège à robots (champ invisible)
+    if (!profile.web3formsKey) return openMailApp();
+
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: profile.web3formsKey,
+          subject: `[Portfolio] ${form.subject || t.contact.defaultSubject}`,
+          from_name: form.name || t.contact.anonymous,
+          name: form.name,
+          email: form.email,
+          replyto: form.email,
+          message: form.message,
+          botcheck: false,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.success) throw new Error(data.message || res.statusText);
+      setStatus("sent");
+      setForm({ name: "", email: "", subject: "", message: "", botcheck: false });
+    } catch {
+      setStatus("error");
+    }
   }
 
   async function copyEmail() {
@@ -102,17 +135,41 @@ export default function Contact() {
               <label htmlFor="name" className="block font-mono text-xs uppercase opacity-70">{t.contact.labelName}</label>
               <input id="name" name="name" autoComplete="name" value={form.name} onChange={handleChange} placeholder={t.contact.placeholderName} className={inputClass} />
 
+              <label htmlFor="email" className="block font-mono text-xs uppercase opacity-70">{t.contact.labelYourEmail}</label>
+              <input id="email" name="email" type="email" autoComplete="email" required value={form.email} onChange={handleChange} placeholder={t.contact.placeholderEmail} className={inputClass} />
+
               <label htmlFor="subject" className="block font-mono text-xs uppercase opacity-70">{t.contact.labelSubject}</label>
               <input id="subject" name="subject" value={form.subject} onChange={handleChange} placeholder={t.contact.placeholderSubject} className={inputClass} />
 
               <label htmlFor="message" className="block font-mono text-xs uppercase opacity-70">{t.contact.labelMessage}</label>
               <textarea id="message" name="message" value={form.message} onChange={handleChange} rows={5} required placeholder={t.contact.placeholderMessage} className={inputClass} />
 
+              {/* piège à robots : invisible pour les humains */}
+              <input type="checkbox" name="botcheck" checked={form.botcheck} onChange={handleChange} className="hidden" tabIndex={-1} autoComplete="off" aria-hidden />
+
               <div className="flex flex-wrap items-center gap-4">
-                <button type="submit" className="btn-pop panel-solid bg-pink px-6 py-3 font-display text-sm tracking-wide text-white">
-                  {t.contact.send} →
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="btn-pop panel-solid bg-pink px-6 py-3 font-display text-sm tracking-wide text-white disabled:cursor-wait disabled:opacity-70"
+                >
+                  {status === "sending" ? t.contact.sending : `${t.contact.send} →`}
                 </button>
                 <span className="text-xs opacity-60">{t.contact.sendHint}</span>
+              </div>
+
+              <div aria-live="polite" className="mt-4 empty:hidden">
+                {status === "sent" && (
+                  <p className="panel-solid inline-block -rotate-1 bg-cyan px-3 py-2 font-display text-sm text-ink">{t.contact.sent}</p>
+                )}
+                {status === "error" && (
+                  <p className="text-sm">
+                    <span className="font-display text-pink">{t.contact.error}</span>{" "}
+                    <button type="button" onClick={openMailApp} className="underline underline-offset-2">
+                      {t.contact.errorFallback}
+                    </button>
+                  </p>
+                )}
               </div>
             </form>
           </Reveal>

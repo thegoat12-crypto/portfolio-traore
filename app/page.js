@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main id="contenu" tabIndex={-1} className="outline-none">
+      <main id="contenu" tabIndex={-1} className="overflow-x-clip outline-none">
         <Hero />
         <About />
         <Skills />

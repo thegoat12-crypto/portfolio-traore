@@ -28,6 +28,13 @@ html {
   scroll-padding-top: 5rem;
 }
 
+/* rien ne doit dépasser sur les côtés (sinon le mobile dézoome la page).
+   clip, et non hidden : ne crée pas de zone de défilement, les animations au scroll restent actives */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-paper);
@@ -439,6 +446,80 @@ h1, h2, h3, h4 {
   to { transform: translateY(var(--depth)); }
 }
 
+/* ---------- Bouton son : égaliseur ---------- */
+
+.eq-bar {
+  height: 16px;
+  transform-origin: 50% 100%;
+  transform: scaleY(0.25);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.eq-on {
+  animation: eq 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes eq {
+  0% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+  100% { transform: scaleY(0.55); }
+}
+
+/* ---------- Intro : la télé rétro ---------- */
+
+/* neige : bruit SVG (feTurbulence) qui saute de position, comme une télé sans signal */
+.tv-noise {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -0.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-color: #222;
+  transition: opacity 0.25s ease;
+  animation: tv-noise 0.3s steps(4) infinite;
+}
+
+@keyframes tv-noise {
+  0% { background-position: 0 0; }
+  25% { background-position: -40px 25px; }
+  50% { background-position: 30px -50px; }
+  75% { background-position: -60px -20px; }
+  100% { background-position: 10px 40px; }
+}
+
+/* allumage cathodique : une ligne lumineuse qui s'ouvre en image, puis un léger scintillement */
+.tv-screen {
+  transform: scaleY(0.01);
+  opacity: 0;
+}
+
+.tv-on {
+  animation: tv-on 0.55s var(--ease-out) forwards, tv-flicker 2.4s ease-in-out 0.55s infinite;
+}
+
+@keyframes tv-on {
+  0% { transform: scaleY(0.01) scaleX(0.6); opacity: 1; filter: brightness(4); }
+  45% { transform: scaleY(0.04) scaleX(1); opacity: 1; filter: brightness(3); }
+  100% { transform: none; opacity: 1; filter: none; }
+}
+
+@keyframes tv-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.92; }
+}
+
+.tv-scanlines {
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 2px, transparent 2px 4px);
+  mix-blend-mode: multiply;
+}
+
+/* sortie : la caméra plonge dans l'écran */
+.tv {
+  transition: transform 0.65s cubic-bezier(0.7, 0, 0.84, 0), opacity 0.65s ease-in;
+  transform-origin: 42% 50%;
+}
+
+.tv-zoom {
+  transform: scale(6);
+  opacity: 0;
+}
+
 /* ---------- Animations liées au défilement (Parcours, Réalisations, Projets…) ----------
    Pilotées par la position de scroll elle-même (animation-timeline: view()) :
    aucune ligne de JavaScript, exécutées par le compositeur, donc fluides.
@@ -562,6 +643,16 @@ h1, h2, h3, h4 {
   .glitch-auto::before,
   .glitch-auto::after {
     display: none;
+  }
+
+  .tv-noise,
+  .tv-on {
+    animation: none !important;
+  }
+
+  .tv-screen {
+    transform: none;
+    opacity: 1;
   }
 
   .swing,
