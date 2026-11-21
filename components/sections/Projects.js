@@ -20,10 +20,10 @@ export default function Projects() {
 
   return (
     <section id="projets" className="relative px-6 py-24">
-      <div className="relative mx-auto max-w-6xl">
+      <div className="relative mx-auto max-w-5xl">
         <SectionHeading caption={t.projects.caption} eyebrow={t.projects.eyebrow} title={t.projects.title} />
 
-        <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-10 md:grid-cols-2">
           {t.projects.items.map((project, index) => {
             const meta = profile.projects[index];
             const cover = covers[meta.color];

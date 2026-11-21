@@ -58,10 +58,12 @@ export default function Navbar() {
           <span className="graffiti-badge -rotate-3 text-2xl text-pink transition-transform group-hover:rotate-0">
             {profile.initials}
           </span>
-          <span className="hidden font-display text-lg font-bold leading-none sm:block">{profile.shortName}</span>
+          <span className="hidden font-display text-sm leading-none sm:block lg:hidden xl:block">
+            <span className="text-pink">{profile.familyName}</span> {profile.givenNames}
+          </span>
         </a>
 
-        <ul className="hidden gap-1 font-display text-sm lg:flex">
+        <ul className="hidden gap-0.5 font-display text-sm lg:flex">
           {links.map((l) => {
             const isActive = active === l.href.slice(1);
             return (
@@ -69,7 +71,7 @@ export default function Navbar() {
                 <a
                   href={l.href}
                   aria-current={isActive ? "true" : undefined}
-                  className={`block rounded-full px-4 py-2 tracking-wide transition-colors hover:bg-yellow hover:text-ink ${
+                  className={`block rounded-full px-3 py-2 tracking-wide transition-colors hover:bg-yellow hover:text-ink ${
                     isActive ? "bg-ink text-paper dark:bg-paper dark:text-ink" : ""
                   }`}
                 >

@@ -52,9 +52,13 @@ export default function Hero() {
         <div>
           <p className="font-mono text-xs uppercase tracking-widest opacity-70">{t.hero.role}</p>
 
-          <h1 className="misprint mt-3 font-display text-6xl font-bold leading-[0.95] sm:text-7xl md:text-8xl" aria-label={profile.shortName}>
-            <span className="glitch-auto block" data-text="Zié Traoré" aria-hidden>Zié Traoré</span>
-            <span className="glitch-auto glitch-late block text-pink" data-text="Mhd .jr" aria-hidden>Mhd .jr</span>
+          <h1 className="misprint mt-8 font-display font-bold md:mt-10" aria-label={profile.name}>
+            <span className="glitch-auto block text-7xl leading-[0.9] sm:text-8xl md:text-9xl" data-text={profile.familyName.toUpperCase()} aria-hidden>
+              {profile.familyName.toUpperCase()}
+            </span>
+            <span className="glitch-auto glitch-late mt-2 block text-3xl leading-[1.05] text-pink sm:text-4xl md:text-5xl" data-text={profile.givenNames} aria-hidden>
+              {profile.givenNames}
+            </span>
           </h1>
 
           <p className="mt-5 text-2xl opacity-85 md:text-3xl">{t.hero.tagline}</p>

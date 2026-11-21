@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 // Image d'aperçu affichée quand le lien est partagé (LinkedIn, WhatsApp, X…).
-export const alt = "Zié Traoré — Développeur fullstack, Big Data & IA";
+export const alt = "Traoré Zié Mohamed Allassane Junior — Data / IA & développeur fullstack";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -48,19 +48,22 @@ export default function Image() {
           style={{
             display: "flex",
             marginTop: 30,
-            fontSize: 120,
+            fontSize: 130,
             fontWeight: 900,
             lineHeight: 1,
             textShadow: `-5px 3px 0 ${cyan}, 5px -3px 0 ${pink}`,
           }}
         >
-          ZIÉ TRAORÉ
+          TRAORÉ
+        </div>
+        <div style={{ display: "flex", marginTop: 8, fontSize: 46, fontWeight: 800, color: pink }}>
+          Zié Mohamed Allassane Junior
         </div>
         <div style={{ display: "flex", marginTop: 26, fontSize: 40, color: cyan, fontWeight: 700 }}>
-          Développeur fullstack · Big Data & IA
+          Master 2 Big Data & IA · Développeur fullstack
         </div>
         <div style={{ display: "flex", marginTop: 18, fontSize: 30, opacity: 0.75 }}>
-          Abidjan, Côte d&apos;Ivoire — Disponible pour un stage Data / IA
+          Abidjan — Disponible immédiatement : stage 6 mois Data / IA
         </div>
       </div>
     ),

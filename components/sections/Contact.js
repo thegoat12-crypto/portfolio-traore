@@ -5,7 +5,7 @@ import { profile } from "@/data/profile";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { TbCopy, TbCheck, TbMail, TbPhone, TbArrowUpRight } from "react-icons/tb";
+import { TbCopy, TbCheck, TbMail, TbPhone, TbArrowUpRight, TbFileCv } from "react-icons/tb";
 import { SiGithub } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa6";
 
@@ -42,6 +42,7 @@ export default function Contact() {
     { label: t.contact.labelPhone, value: profile.contact.phone, href: `tel:${profile.contact.phone.replace(/\s/g, "")}`, Icon: TbPhone },
     { label: "LinkedIn", value: profile.contact.linkedinLabel, href: profile.contact.linkedin, Icon: FaLinkedin, external: true },
     { label: "GitHub", value: profile.contact.githubLabel, href: profile.contact.github, Icon: SiGithub, external: true },
+    ...(profile.cv ? [{ label: t.contact.cv, value: t.contact.cvValue, href: profile.cv, Icon: TbFileCv, external: true }] : []),
   ];
 
   return (

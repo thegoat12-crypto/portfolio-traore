@@ -22,7 +22,6 @@ const csp = `
   .trim();
 
 const securityHeaders = [
-  { key: "Content-Security-Policy", value: csp },
   // Force HTTPS pendant 2 ans (y compris sous-domaines)
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   // Empêche d'afficher le site dans une iframe (clickjacking)
@@ -42,7 +41,11 @@ const nextConfig = {
   // ne pas annoncer la techno du serveur
   poweredByHeader: false,
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [
+      { source: "/(.*)", headers: securityHeaders },
+      // CSP sur les pages, mais pas sur les PDF : elle bloquerait le lecteur PDF du navigateur
+      { source: "/((?!.*\\.pdf$).*)", headers: [{ key: "Content-Security-Policy", value: csp }] },
+    ];
   },
 };
 
