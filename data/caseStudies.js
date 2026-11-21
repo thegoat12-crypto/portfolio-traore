@@ -1,10 +1,14 @@
 // Études de cas détaillées des projets (FR / EN, même structure).
 // Source : présentation et notebook du hackathon (dépôt public hackathon-wdl-chomage).
 
+import { moreCaseStudies } from "./caseStudiesMore";
+
 const NB = " ";
 
 export const caseStudies = {
   "hackathon-wdl-chomage": {
+    kind: "projets",
+    back: "/#projets",
     github: "https://github.com/thegoat12-crypto/hackathon-wdl-chomage",
     figures: [
       { src: "/projets/data-2.webp", w: 1400, h: 518 },
@@ -140,4 +144,5 @@ export const caseStudies = {
       figureLabel: "Figure",
     },
   },
+  ...moreCaseStudies,
 };

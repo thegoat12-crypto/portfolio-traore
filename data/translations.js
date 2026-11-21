@@ -94,6 +94,7 @@ export const translations = {
       tagInternship: "STAGE",
       tagAchievement: "RÉALISATION",
       chapter: "CHAPITRE",
+      more: "En savoir plus",
       book: { book: "livre de bande dessinée", title: "Parcours et réalisations", page: "Page", prev: "Page précédente", next: "Page suivante", hint: "Tournez les pages : boutons, flèches du clavier ou glissez du doigt." },
       items: [
         {
@@ -311,6 +312,7 @@ export const translations = {
       tagInternship: "INTERNSHIP",
       tagAchievement: "ACHIEVEMENT",
       chapter: "CHAPTER",
+      more: "Learn more",
       book: { book: "comic book", title: "Journey and achievements", page: "Page", prev: "Previous page", next: "Next page", hint: "Turn the pages: buttons, arrow keys or swipe." },
       items: [
         {

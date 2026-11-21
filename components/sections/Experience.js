@@ -4,6 +4,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import SectionHeading from "@/components/ui/SectionHeading";
 import OrgLogo from "@/components/ui/OrgLogo";
 import ComicBook from "@/components/ui/ComicBook";
+import Link from "next/link";
+
+const DETAILS = {
+  worlddatalab: "/projets/hackathon-wdl-chomage",
+  blo: "/parcours/blo-sarl",
+  esatic: "/parcours/ivoire-culture-connect",
+  ebenyx: "/parcours/ebenyx",
+};
 
 // Étoile « POW! » des réalisations (polygone en éclat, façon BD)
 function Burst({ label }) {
@@ -61,6 +69,15 @@ export default function Experience() {
                 <div className="comic-bubble relative mt-6 border-[3px] border-current bg-paper p-5 text-ink sm:ml-6">
                   <p className="text-sm leading-relaxed sm:text-base">{item.text}</p>
                 </div>
+
+                {DETAILS[item.orgKey] && (
+                  <Link
+                    href={DETAILS[item.orgKey]}
+                    className="btn-pop panel-solid mt-6 mb-6 inline-flex w-fit items-center gap-1 bg-yellow px-4 py-2 font-display text-sm tracking-wide text-ink sm:ml-6"
+                  >
+                    {t.experience.more} →
+                  </Link>
+                )}
               </article>
             );
           })}
