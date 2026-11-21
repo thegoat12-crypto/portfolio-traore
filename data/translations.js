@@ -142,7 +142,7 @@ export const translations = {
         {
           title: "Chômage des jeunes femmes en Côte d'Ivoire",
           year: "2026 · Projet Data",
-          text: "Analyse et prévision 2025–2035 réalisées au hackathon Data for Development (World Data Lab) : nettoyage et agrégation des données, disparités de genre, régression linéaire (OLS, IC 95 %) et recommandations de politiques publiques.",
+          text: "Hackathon Data for Development (World Data Lab). Données Africa Youth Employment Clock filtrées sur la Côte d'Ivoire : 1 205 974 jeunes femmes hors du marché du travail, taux NEET féminin environ deux fois celui des hommes, moins de 20 % d'emplois formels. Régression OLS (IC 95 %) sur deux scénarios : 14,4 % de chômage en 2035 sans action, 11,4 % avec une politique d'inclusion active. Recommandations générées avec l'API Claude.",
           sfx: "EURÊKA!",
         },
         {
@@ -356,7 +356,7 @@ export const translations = {
         {
           title: "Youth female unemployment in Côte d'Ivoire",
           year: "2026 · Data project",
-          text: "2025–2035 analysis and forecast built at the Data for Development hackathon (World Data Lab): data cleaning and aggregation, gender disparities, linear regression (OLS, 95% CI) and public policy recommendations.",
+          text: "Data for Development hackathon (World Data Lab). Africa Youth Employment Clock data filtered on Côte d'Ivoire: 1,205,974 young women outside the labour market, a female NEET rate about twice the male rate, under 20% formal jobs. OLS regression (95% CI) on two scenarios: 14.4% unemployment in 2035 with no action, 11.4% with active inclusion policies. Recommendations generated with the Claude API.",
           sfx: "EUREKA!",
         },
         {

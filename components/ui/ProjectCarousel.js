@@ -64,7 +64,7 @@ export default function ProjectCarousel({ meta, title, labels, bg }) {
             aria-hidden={i !== index}
           >
             {hasImages ? (
-              <Image src={Slide} alt={`${title} — ${labels.slide} ${i + 1}`} fill sizes="(min-width: 1024px) 380px, 90vw" className="object-cover object-top" />
+              <Image src={Slide} alt={`${title} — ${labels.slide} ${i + 1}`} fill sizes="(min-width: 1024px) 480px, 90vw" className={meta.fit === "contain" ? "bg-white object-contain p-2" : "object-cover object-top"} />
             ) : (
               <Slide />
             )}
