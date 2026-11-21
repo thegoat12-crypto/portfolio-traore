@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { TbArrowLeft, TbBrandGithub } from "react-icons/tb";
@@ -11,6 +12,12 @@ import LanguageToggle from "@/components/ui/LanguageToggle";
 // Page « étude de cas » d'un projet, dans la direction artistique du site.
 export default function CaseStudy({ slug }) {
   const { lang } = useLanguage();
+  const fr = lang === "fr";
+
+  // ouvrir la page en haut (l'en-tête collant empêche Next de le faire seul)
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [slug]);
   const cs = caseStudies[slug];
   const c = cs[lang];
 
@@ -18,7 +25,7 @@ export default function CaseStudy({ slug }) {
     <>
       <header className="sticky top-0 z-50 border-b-4 border-ink bg-paper py-3 shadow-[0_6px_0_0_var(--color-pink)] dark:border-paper dark:bg-ink">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-6">
-          <Link href="/#projets" className="btn-pop panel-solid flex items-center gap-1 bg-yellow px-3 py-1.5 font-display text-sm text-ink">
+          <Link href={cs.back} className="btn-pop panel-solid flex items-center gap-1 bg-yellow px-3 py-1.5 font-display text-sm text-ink">
             <TbArrowLeft aria-hidden /> {c.back}
           </Link>
           <div className="flex items-center gap-3">
@@ -39,12 +46,14 @@ export default function CaseStudy({ slug }) {
           </div>
 
           {/* chiffre clé + fiche */}
-          <div className="mt-10 grid gap-6 md:grid-cols-[1fr_1.4fr]">
-            <div className="panel-solid relative -rotate-1 bg-yellow p-6 text-ink">
-              <div className="halftone absolute inset-0 text-pink !opacity-20" aria-hidden />
-              <p className="misprint relative font-display text-5xl leading-none md:text-6xl">{c.keyFigure}</p>
-              <p className="relative mt-2 font-display text-lg">{c.keyFigureLabel}</p>
-            </div>
+          <div className={`mt-10 grid gap-6 ${c.keyFigure ? "md:grid-cols-[1fr_1.4fr]" : ""}`}>
+            {c.keyFigure && (
+              <div className="panel-solid relative -rotate-1 bg-yellow p-6 text-ink">
+                <div className="halftone absolute inset-0 text-pink !opacity-20" aria-hidden />
+                <p className="misprint relative font-display text-5xl leading-none md:text-6xl">{c.keyFigure}</p>
+                <p className="relative mt-2 font-display text-lg">{c.keyFigureLabel}</p>
+              </div>
+            )}
             <dl className="panel grid gap-3 p-6">
               {c.facts.map((f) => (
                 <div key={f.label}>
@@ -81,8 +90,9 @@ export default function CaseStudy({ slug }) {
           ))}
 
           {/* résultats avec les graphiques */}
+          {cs.figures && (
           <section className="mt-16">
-            <h2 className="misprint font-display text-3xl font-bold md:text-4xl">{c.resultsTitle}</h2>
+            <h2 className="misprint font-display text-3xl font-bold md:text-4xl">{c.resultsTitle ?? (fr ? "En images" : "In pictures")}</h2>
             <div className="mt-8 space-y-12">
               {cs.figures.map((f, i) => (
                 <figure key={f.src} className={i % 2 ? "rotate-[0.4deg]" : "-rotate-[0.4deg]"}>
@@ -99,8 +109,10 @@ export default function CaseStudy({ slug }) {
               ))}
             </div>
           </section>
+          )}
 
           {/* recommandations */}
+          {c.recos && (
           <section className="mt-16">
             <h2 className="misprint font-display text-3xl font-bold md:text-4xl">{c.recoTitle}</h2>
             <ul className="mt-6 grid gap-4 md:grid-cols-3">
@@ -112,13 +124,16 @@ export default function CaseStudy({ slug }) {
               ))}
             </ul>
           </section>
+          )}
 
           {/* conclusion + apprentissages */}
-          <section className="mt-16 grid gap-6 md:grid-cols-2">
-            <div className="panel-solid bg-ink p-6 text-paper dark:bg-paper dark:text-ink">
-              <h2 className="font-display text-2xl text-yellow dark:text-pink">{c.conclusionTitle}</h2>
-              <p className="mt-3 leading-relaxed">{c.conclusion}</p>
-            </div>
+          <section className={`mt-16 grid gap-6 ${c.conclusion ? "md:grid-cols-2" : ""}`}>
+            {c.conclusion && (
+              <div className="panel-solid bg-ink p-6 text-paper dark:bg-paper dark:text-ink">
+                <h2 className="font-display text-2xl text-yellow dark:text-pink">{c.conclusionTitle}</h2>
+                <p className="mt-3 leading-relaxed">{c.conclusion}</p>
+              </div>
+            )}
             <div className="panel p-6">
               <h2 className="font-display text-2xl">{c.learnedTitle}</h2>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed opacity-85">
@@ -130,10 +145,12 @@ export default function CaseStudy({ slug }) {
           </section>
 
           <div className="mt-14 flex flex-wrap gap-4">
-            <a href={cs.github} target="_blank" rel="noopener noreferrer" className="btn-pop panel-solid flex items-center gap-2 bg-cyan px-6 py-3 font-display text-ink">
-              <TbBrandGithub aria-hidden /> {c.code}
-            </a>
-            <Link href="/#projets" className="btn-pop panel-solid flex items-center gap-2 bg-paper px-6 py-3 font-display text-ink">
+            {cs.github && (
+              <a href={cs.github} target="_blank" rel="noopener noreferrer" className="btn-pop panel-solid flex items-center gap-2 bg-cyan px-6 py-3 font-display text-ink">
+                <TbBrandGithub aria-hidden /> {c.code}
+              </a>
+            )}
+            <Link href={cs.back} className="btn-pop panel-solid flex items-center gap-2 bg-paper px-6 py-3 font-display text-ink">
               <TbArrowLeft aria-hidden /> {c.back}
             </Link>
           </div>

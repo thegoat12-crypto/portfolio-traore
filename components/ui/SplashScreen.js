@@ -64,9 +64,17 @@ function RealTV({ phase }) {
   );
 }
 
+// Mémorisé tant que l'onglet n'est pas rechargé : l'intro se joue à l'arrivée sur le
+// site, mais pas quand on revient d'une page projet par un lien ou le bouton « Retour ».
+let introPlayed = false;
+
 export default function SplashScreen() {
   const pathname = usePathname();
-  if (pathname !== "/") return null; // pas d'intro sur les pages de projet
+  const [show] = useState(() => pathname === "/" && !introPlayed);
+  useEffect(() => {
+    introPlayed = true;
+  }, []);
+  if (!show) return null;
   return <Splash />;
 }
 
