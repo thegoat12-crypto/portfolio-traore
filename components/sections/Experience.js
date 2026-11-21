@@ -26,26 +26,29 @@ export default function Experience() {
 
   return (
     <section id="experience" className="section-alt overflow-x-clip px-6 py-24">
-      <div className="relative mx-auto max-w-4xl">
+      <div className="relative mx-auto max-w-5xl">
         <SectionHeading caption={t.experience.caption} eyebrow={t.experience.eyebrow} title={t.experience.title} />
 
         {/* frise : rail en pointillés + fil rose qui se dessine au fil du défilement */}
-        <ol className="relative mt-14 space-y-12 border-l-[3px] border-dashed border-current/20 pl-8 md:pl-12">
-          <span className="scroll-line absolute -left-[3px] top-0 h-full w-[3px] bg-pink" aria-hidden />
+        <ol className="relative mt-14 space-y-14 border-l-[3px] border-dashed border-current/20 pl-8 md:space-y-4 md:border-l-0 md:pl-0">
+          <span className="absolute left-1/2 top-0 hidden h-full w-0 -translate-x-1/2 border-l-[3px] border-dashed border-current/20 md:block" aria-hidden />
+          <span className="scroll-line absolute -left-[3px] top-0 h-full w-[3px] bg-pink md:left-1/2 md:-translate-x-1/2" aria-hidden />
 
           {items.map((item, index) => {
             const isInternship = item.type === "internship";
             return (
-              <li key={item.title} className="relative">
+              <li key={item.title} className={`relative md:w-[calc(50%-2.5rem)] ${index % 2 ? "md:ml-auto" : ""}`}>
                 <span
-                  className={`scroll-pop absolute -left-[46px] top-6 h-6 w-6 rounded-full border-[3px] border-current md:-left-[62px] ${
+                  className={`scroll-pop absolute -left-[46px] top-6 h-6 w-6 rounded-full border-[3px] border-current ${index % 2 ? "md:-left-[52px]" : "md:left-auto md:-right-[52px]"} ${
                     isInternship ? "bg-cyan" : "bg-yellow"
                   }`}
                   aria-hidden
                 />
                 <article
-                  className={`${index % 2 ? "scroll-in-left" : "scroll-in"} panel relative bg-paper p-6 text-ink dark:bg-ink dark:text-paper`}
+                  className={`${index % 2 ? "scroll-in" : "scroll-in-left"} panel relative overflow-visible bg-paper p-6 pt-8 text-ink dark:bg-ink dark:text-paper`}
                 >
+                  {/* bande de couleur : jaune = réalisation, cyan = stage */}
+                  <span className={`absolute inset-x-0 top-0 h-2.5 ${isInternship ? "bg-cyan" : "bg-yellow"}`} aria-hidden />
                   {!isInternship && <Burst label="POW!" />}
 
                   <div className="flex flex-wrap items-center gap-3">
