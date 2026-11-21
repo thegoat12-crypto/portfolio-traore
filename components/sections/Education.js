@@ -24,6 +24,7 @@ export default function Education() {
                     <span className="font-mono text-xs text-pink">{item.year}</span>
                     <h3 className="font-display text-xl">{item.title}</h3>
                     <p className="text-sm opacity-70">{item.org}</p>
+                    {item.note && <p className="mt-1 text-sm italic text-pink">{item.note}</p>}
                   </div>
                 </div>
               </Reveal>

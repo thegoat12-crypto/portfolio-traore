@@ -2,59 +2,62 @@
 // Tous les textes affichés (titres, descriptions, dates) sont dans data/translations.js.
 
 export const profile = {
-  name: "Zié Mohamed Allassane Junior Traoré",
-  legalName: "TRAORÉ Zié Mohamed Allassane Junior",
-  shortName: "Zié Traoré Mhd .jr",
+  // Nom complet, nom de famille en premier
+  name: "Traoré Zié Mohamed Allassane Junior",
+  familyName: "Traoré",
+  givenNames: "Zié Mohamed Allassane Junior",
   initials: "TZM",
   timeZone: "Africa/Abidjan",
+  siteUrl: "https://traoremhd.vercel.app",
 
-  // Déposez le PDF dans /public puis indiquez son chemin, ex. "/cv-zie-traore.pdf".
-  // Tant que la valeur est null, le bouton « Télécharger mon CV » est masqué.
-  cv: null,
+  // CV téléchargeable (fichier dans /public). null = bouton masqué.
+  cv: "/cv-traore-zie.pdf",
 
-  // Déposez la photo dans /public puis indiquez son chemin, ex. "/photo-zie.jpg".
-  // Tant que la valeur est null, un portrait illustré (initiales en trame) est affiché.
-  photo: null,
+  // Photo (fichier dans /public, portrait 3:4). null = portrait illustré avec initiales.
+  photo: "/photo-zie.jpg",
 
   contact: {
     email: "ziemohamedallassanejuniortraor@gmail.com",
     phone: "+225 07 89 39 24 54",
-    location: "Abidjan, Côte d'Ivoire",
+    location: "Angré, Abidjan — Côte d'Ivoire",
     linkedin: "https://linkedin.com/in/traore-zie-mohamed-allassane-junior",
     linkedinLabel: "linkedin.com/in/traore-zie-mohamed-allassane-junior",
     github: "https://github.com/thegoat12-crypto",
     githubLabel: "github.com/thegoat12-crypto",
   },
 
-  // `key` renvoie au libellé traduit dans translations.skills.categories
+  // Compétences, comme sur le CV. `key` renvoie au libellé traduit dans translations.skills.categories
   skills: [
-    { key: "languages", items: ["Python", "JavaScript", "Dart", "SQL", "HTML", "CSS", "R"] },
-    { key: "frameworks", items: ["Django", "Laravel", "React", "Next.js", "Flutter"] },
+    { key: "languages", items: ["Python", "JavaScript", "SQL", "R"] },
+    { key: "data", items: ["Pandas", "NumPy", "Régression (OLS)"] },
+    { key: "bi", items: ["Power BI", "Excel", "Matplotlib"] },
+    { key: "frameworks", items: ["Django", "React", "Next.js", "Flutter"] },
     { key: "databases", items: ["PostgreSQL", "MySQL"] },
-    { key: "data", items: ["Pandas", "NumPy", "Matplotlib", "Régression linéaire"] },
-    { key: "tools", items: ["Git/GitHub", "Docker", "Vercel"] },
+    { key: "tools", items: ["Git/GitHub", "Docker", "Vercel", "Ollama"] },
   ],
 
-  // Écoles et entreprises (utilisées par le Parcours et la Formation).
+  // Écoles et entreprises (Parcours et Formation).
   // logo: déposez le fichier dans /public/logos/ puis indiquez son chemin,
   // ex. "/logos/esatic.png" (PNG ou SVG, fond transparent ou blanc, carré de préférence).
   // Tant que logo vaut null, un badge avec les initiales est affiché.
   orgs: {
     esatic: { name: "ESATIC", initials: "ES", color: "cyan", logo: null },
+    estia: { name: "ESTIA — École Supérieure des Technologies Industrielles Avancées", initials: "ESTIA", color: "pink", logo: null },
     iit: { name: "Institut Ivoirien de Technologie", initials: "IIT", color: "yellow", logo: null },
-    blo: { name: "Blo", initials: "BLO", color: "pink", logo: null },
+    blo: { name: "Blo SARL", initials: "BLO", color: "pink", logo: null },
     ebenyx: { name: "Ebenyx Technologies", initials: "EX", color: "cyan", logo: null },
     worlddatalab: { name: "World Data Lab", initials: "WDL", color: "yellow", logo: null },
   },
 
   // Liens, technos et images des projets, dans le même ordre que translations.projects.items.
   // github: null → pas de bouton (dépôt privé ou inexistant).
-  // images: captures d'écran à déposer dans /public/projets/, ex. ["/projets/parfumerie-1.png", ...].
-  //   Tant que la liste est vide, des illustrations dessinées défilent à la place.
+  // kind: le type d'illustration affichée tant qu'il n'y a pas de captures (data, ai, web, mobile).
+  // images: captures à déposer dans /public/projets/, ex. ["/projets/data-1.png", ...].
   projects: [
+    { id: "data-chomage", stack: ["Python", "Pandas", "NumPy", "Matplotlib", "Régression (OLS)"], github: null, color: "cyan", kind: "data", images: [] },
+    { id: "monster", stack: ["Python", "Ollama", "LLM local"], github: null, color: "yellow", kind: "ai", images: [] },
     { id: "parfumerie", stack: ["Next.js", "React", "Django", "PostgreSQL"], github: "https://github.com/thegoat12-crypto/perfume-ecommerce", color: "pink", kind: "web", images: [] },
     { id: "oquartier", stack: ["Flutter", "Dart"], github: null, color: "cyan", kind: "mobile", images: [] },
-    { id: "flotte", stack: ["Django", "PostgreSQL"], github: null, color: "yellow", kind: "dashboard", images: [] },
   ],
 };
 

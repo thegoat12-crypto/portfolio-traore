@@ -103,10 +103,15 @@ export default function SplashScreen() {
         {/* l'encadré passe au-dessus du fil : le texte n'est plus coupé */}
         <p className="caption-box relative z-10 mb-3">{t.splash.welcome}</p>
 
-        <p className="misprint font-display text-6xl font-bold leading-[0.95] sm:text-7xl md:text-9xl" aria-label="Zié Traoré">
-          ZIÉ TRA
-          <PortalO />
-          RÉ
+        <p className="misprint font-display font-bold" aria-label={profile.name}>
+          <span className="block text-7xl leading-[0.95] sm:text-8xl md:text-9xl" aria-hidden>
+            TRA
+            <PortalO />
+            RÉ
+          </span>
+          <span className="mt-2 block text-2xl leading-tight text-paper sm:text-3xl md:text-4xl" aria-hidden>
+            ZIÉ MOHAMED ALLASSANE JUNIOR
+          </span>
         </p>
 
         <p className="mt-3 font-display text-xl text-cyan sm:text-2xl">{t.hero.role}</p>
@@ -120,7 +125,7 @@ export default function SplashScreen() {
       </div>
 
       <div className="absolute bottom-8 right-8 hidden text-right text-xs opacity-60 sm:block">
-        <p className="font-display">{profile.shortName}</p>
+        <p className="font-display">{profile.name}</p>
         <p>{profile.contact.githubLabel}</p>
       </div>
 

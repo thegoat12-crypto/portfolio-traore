@@ -50,9 +50,9 @@ export default function BackgroundFX() {
 
       {/* éclats de dimensions : contours décalés qui dérivent */}
       {shards.map((s, i) => (
-        <div key={i} className={`absolute parallax-mid`} style={s.style}>
+        <div key={i} className="absolute hidden md:block parallax-mid" style={s.style}>
           <div
-            className={`shard ${s.size} border-[3px] ${s.color} opacity-40`}
+            className={`shard ${s.size} border-[3px] ${s.color} opacity-30`}
             style={{ "--rot": s.rot, animationDuration: s.dur, clipPath: "polygon(12% 0, 100% 0, 88% 100%, 0 100%)" }}
           />
         </div>

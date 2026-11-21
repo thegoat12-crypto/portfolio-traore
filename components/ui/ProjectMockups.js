@@ -216,89 +216,185 @@ function QuartierChat() {
   );
 }
 
-/* ---------- Flotte (tableau de bord) ---------- */
+/* ---------- Projet Data : chômage des jeunes femmes ---------- */
 
-function FleetKpis() {
-  const bars = [55, 80, 40, 92, 66, 74, 50];
+function Notebook({ children, title }) {
   return (
-    <Browser url="flotte / tableau de bord">
-      <div className="flex h-full flex-col gap-2 p-3">
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            ["VÉHICULES", "48", CYAN],
-            ["EN MISSION", "31", YELLOW],
-            ["ALERTES", "3", PINK],
-          ].map(([label, value, c]) => (
-            <div key={label} className="rounded border-2 border-ink p-1.5" style={{ background: c }}>
-              <span className="block font-display text-[7px]">{label}</span>
-              <span className="block font-display text-lg leading-none">{value}</span>
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-1 items-end gap-1.5 rounded border-2 border-ink p-2">
-          {bars.map((h, i) => (
-            <span key={i} className="flex-1 border-2 border-ink" style={{ height: `${h}%`, background: i === 3 ? PINK : INK }} />
-          ))}
-        </div>
+    <div className="absolute inset-3 flex flex-col overflow-hidden rounded-md border-[3px] border-ink bg-paper shadow-[4px_4px_0_0_#0a0a12]">
+      <div className="flex items-center gap-2 border-b-[3px] border-ink bg-yellow px-2 py-1">
+        <span className="font-mono text-[8px] font-bold">In [42]:</span>
+        <span className="truncate font-mono text-[8px]">{title}</span>
       </div>
-    </Browser>
+      <div className="relative flex-1 overflow-hidden">{children}</div>
+    </div>
   );
 }
 
-function FleetTable() {
-  const rows = [
-    ["AB-123-CI", "Disponible", CYAN],
-    ["CD-456-CI", "En mission", YELLOW],
-    ["EF-789-CI", "Entretien", PINK],
-    ["GH-012-CI", "En mission", YELLOW],
+function DataForecast() {
+  // historique (plein) puis prévision (pointillés) avec bande de confiance à 95 %
+  const hist = "M20 104 L50 98 L80 101 L110 90 L140 86";
+  const fut = "M140 86 L170 80 L200 73 L230 68 L260 61";
+  const band = "M140 86 L170 70 L200 58 L230 49 L260 38 L260 84 L230 87 L200 88 L170 90 L140 86 Z";
+  return (
+    <Notebook title="prevision_2025_2035.ipynb">
+      <svg viewBox="0 0 280 130" className="absolute inset-0 h-full w-full" aria-hidden>
+        {[30, 60, 90].map((y) => (
+          <line key={y} x1="20" x2="270" y1={y} y2={y} stroke={INK} strokeOpacity="0.12" strokeWidth="1" />
+        ))}
+        <line x1="20" y1="112" x2="270" y2="112" stroke={INK} strokeWidth="2" />
+        <line x1="20" y1="14" x2="20" y2="112" stroke={INK} strokeWidth="2" />
+        <path d={band} fill={CYAN} opacity="0.35" />
+        <path d={hist} fill="none" stroke={INK} strokeWidth="3" />
+        <path d={fut} fill="none" stroke={PINK} strokeWidth="3" strokeDasharray="6 4" />
+        {[[20, 104], [50, 98], [80, 101], [110, 90], [140, 86]].map(([x, y]) => (
+          <circle key={x} cx={x} cy={y} r="3" fill={YELLOW} stroke={INK} strokeWidth="1.5" />
+        ))}
+        <line x1="140" y1="14" x2="140" y2="112" stroke={INK} strokeWidth="1" strokeDasharray="3 3" />
+        <text x="146" y="22" fontSize="8" fontFamily="monospace" fill={INK}>prévision →</text>
+        <text x="22" y="124" fontSize="7" fontFamily="monospace" fill={INK}>2015</text>
+        <text x="130" y="124" fontSize="7" fontFamily="monospace" fill={INK}>2025</text>
+        <text x="246" y="124" fontSize="7" fontFamily="monospace" fill={INK}>2035</text>
+      </svg>
+      <span className="absolute right-2 top-2 rounded-sm border-2 border-ink bg-cyan px-1 font-mono text-[7px]">IC 95 %</span>
+    </Notebook>
+  );
+}
+
+function DataGender() {
+  const groups = [
+    ["15-19", 58, 41],
+    ["20-24", 72, 49],
+    ["25-29", 64, 44],
+    ["30-35", 50, 37],
   ];
   return (
-    <Browser url="flotte / véhicules">
-      <div className="p-3">
-        <div className="flex items-center justify-between">
-          <span className="font-display text-xs">VÉHICULES</span>
-          <span className="border-2 border-ink bg-pink px-1.5 font-display text-[8px] text-white">+ AJOUTER</span>
+    <Notebook title="disparites_genre.py">
+      <div className="flex h-full flex-col p-3">
+        <div className="flex items-center gap-3 font-display text-[8px]">
+          <span className="flex items-center gap-1"><span className="h-2 w-2 border border-ink bg-pink" />FEMMES</span>
+          <span className="flex items-center gap-1"><span className="h-2 w-2 border border-ink bg-cyan" />HOMMES</span>
+          <span className="ml-auto font-mono opacity-60">exemple illustratif</span>
         </div>
-        <div className="mt-2 divide-y-2 divide-ink/15 rounded border-2 border-ink">
-          {rows.map(([plate, status, c]) => (
-            <div key={plate} className="flex items-center gap-2 px-2 py-1">
-              <span className="font-mono text-[8px] font-bold">{plate}</span>
-              <Line w="30%" className="!h-1" />
-              <span className="ml-auto rounded-full border-2 border-ink px-1.5 font-display text-[7px]" style={{ background: c }}>{status}</span>
+        <div className="mt-2 flex flex-1 items-end gap-3 border-b-2 border-l-2 border-ink px-2">
+          {groups.map(([label, f, h]) => (
+            <div key={label} className="flex h-full flex-1 flex-col justify-end">
+              <div className="flex h-full items-end gap-0.5">
+                <span className="flex-1 border-2 border-ink bg-pink" style={{ height: `${f}%` }} />
+                <span className="flex-1 border-2 border-ink bg-cyan" style={{ height: `${h}%` }} />
+              </div>
+              <span className="mt-1 text-center font-mono text-[7px]">{label}</span>
             </div>
           ))}
         </div>
       </div>
-    </Browser>
+    </Notebook>
   );
 }
 
-function FleetRoute() {
+function DataPolicy() {
+  const recos = ["Formation numérique ciblée", "Accès au crédit pour entreprendre", "Suivi annuel des indicateurs"];
   return (
-    <Browser url="flotte / trajets">
-      <div className="absolute inset-0 bg-[#fff8cc]" />
-      <svg viewBox="0 0 300 160" className="absolute inset-0 h-full w-full" aria-hidden>
-        <path d="M20 130 C80 120 70 50 140 60 S230 120 280 30" fill="none" stroke={INK} strokeWidth="7" strokeLinecap="round" />
-        <path d="M20 130 C80 120 70 50 140 60 S230 120 280 30" fill="none" stroke={YELLOW} strokeWidth="3" strokeDasharray="8 8" strokeLinecap="round" />
-        <circle cx="20" cy="130" r="8" fill={CYAN} stroke={INK} strokeWidth="3" />
-        <circle cx="280" cy="30" r="8" fill={PINK} stroke={INK} strokeWidth="3" />
-        <g transform="translate(130 44)">
-          <rect x="0" y="4" width="26" height="12" rx="2" fill={PINK} stroke={INK} strokeWidth="2.5" />
-          <rect x="16" y="0" width="10" height="8" rx="1" fill={PAPER} stroke={INK} strokeWidth="2" />
-          <circle cx="6" cy="17" r="3.5" fill={INK} />
-          <circle cx="20" cy="17" r="3.5" fill={INK} />
-        </g>
-      </svg>
-      <div className="absolute bottom-2 left-2 rounded border-2 border-ink bg-paper px-2 py-1">
-        <span className="block font-display text-[8px]">ABIDJAN → YAMOUSSOUKRO</span>
-        <span className="block font-mono text-[7px] opacity-60">240 km · 3 h 10</span>
+    <div className="absolute inset-0 bg-cyan">
+      <div className="halftone-fade absolute inset-0 text-ink !opacity-30" />
+      <div className="absolute inset-4 flex gap-3">
+        <div className="flex w-[42%] flex-col justify-center rounded border-[3px] border-ink bg-yellow p-2 shadow-[4px_4px_0_0_#0a0a12]">
+          <span className="font-display text-[9px]">MODÈLE</span>
+          <span className="font-display text-xl leading-none">OLS</span>
+          <span className="mt-1 font-mono text-[8px]">régression linéaire</span>
+          <span className="mt-2 font-mono text-[8px]">horizon 2035</span>
+        </div>
+        <div className="flex flex-1 flex-col gap-1.5 rounded border-[3px] border-ink bg-paper p-2 shadow-[4px_4px_0_0_#0a0a12]">
+          <span className="font-display text-[9px]">RECOMMANDATIONS</span>
+          {recos.map((r, i) => (
+            <span key={r} className="flex items-start gap-1 font-mono text-[7.5px] leading-tight">
+              <span className="font-display text-pink">{i + 1}.</span> {r}
+            </span>
+          ))}
+        </div>
       </div>
-    </Browser>
+    </div>
+  );
+}
+
+/* ---------- Monster : assistant IA local ---------- */
+
+function Terminal({ children, title }) {
+  return (
+    <div className="absolute inset-3 flex flex-col overflow-hidden rounded-md border-[3px] border-ink bg-ink shadow-[4px_4px_0_0_#0a0a12]">
+      <div className="flex items-center gap-1.5 border-b-2 border-paper/20 px-2 py-1">
+        <span className="h-2 w-2 rounded-full bg-pink" />
+        <span className="h-2 w-2 rounded-full bg-yellow" />
+        <span className="h-2 w-2 rounded-full bg-cyan" />
+        <span className="ml-2 font-mono text-[7px] text-paper/60">{title}</span>
+      </div>
+      <div className="relative flex-1 space-y-1.5 overflow-hidden p-2 font-mono text-[8px] leading-snug text-paper">{children}</div>
+    </div>
+  );
+}
+
+function MonsterFace({ className = "" }) {
+  return (
+    <svg viewBox="0 0 40 40" className={className} aria-hidden>
+      <rect x="4" y="8" width="32" height="26" rx="6" fill={YELLOW} stroke={INK} strokeWidth="3" />
+      <line x1="20" y1="8" x2="20" y2="2" stroke={INK} strokeWidth="3" />
+      <circle cx="20" cy="2.5" r="2.5" fill={PINK} stroke={INK} strokeWidth="1.5" />
+      <circle cx="14" cy="19" r="4" fill={PAPER} stroke={INK} strokeWidth="2" />
+      <circle cx="26" cy="19" r="4" fill={PAPER} stroke={INK} strokeWidth="2" />
+      <circle cx="14" cy="19" r="1.6" fill={INK} />
+      <circle cx="26" cy="19" r="1.6" fill={INK} />
+      <path d="M13 27 L16 29 L19 27 L22 29 L25 27 L28 29" fill="none" stroke={INK} strokeWidth="2" />
+    </svg>
+  );
+}
+
+function MonsterChat() {
+  return (
+    <Terminal title="monster — ollama (local)">
+      <p><span className="text-cyan">vous ›</span> Salut Monster, résume mes notes de cours.</p>
+      <p className="flex items-start gap-1.5">
+        <MonsterFace className="h-5 w-5 shrink-0" />
+        <span><span className="text-yellow">monster ›</span> Voilà les 3 idées clés de ta séance sur la régression…</span>
+      </p>
+      <p><span className="text-cyan">vous ›</span> Merci ! Ajoute-les à ma fiche.</p>
+      <p className="text-pink">▍</p>
+    </Terminal>
+  );
+}
+
+function MonsterSearch() {
+  return (
+    <Terminal title="monster — recherche web">
+      <p><span className="text-cyan">vous ›</span> Quoi de neuf sur les LLM open source ?</p>
+      <p className="text-paper/60">⟳ recherche en cours…</p>
+      {["source 1 — article", "source 2 — documentation", "source 3 — blog technique"].map((s) => (
+        <p key={s} className="flex items-center gap-1.5">
+          <span className="inline-block h-2 w-2 border border-paper bg-cyan" /> {s}
+        </p>
+      ))}
+      <p><span className="text-yellow">monster ›</span> Synthèse prête, avec les liens.</p>
+    </Terminal>
+  );
+}
+
+function MonsterMemory() {
+  return (
+    <div className="absolute inset-0 bg-yellow">
+      <div className="halftone absolute inset-0 text-pink !opacity-30" />
+      <MonsterFace className="absolute left-5 top-1/2 h-24 w-24 -translate-y-1/2 -rotate-6" />
+      <div className="absolute right-4 top-4 bottom-4 flex w-[52%] flex-col gap-1.5 rounded border-[3px] border-ink bg-paper p-2 shadow-[4px_4px_0_0_#0a0a12]">
+        <span className="font-display text-[9px]">MÉMOIRE</span>
+        {["Préfère les réponses courtes", "Projet : portfolio Next.js", "Examen BIHAR vendredi"].map((m) => (
+          <span key={m} className="rounded-sm border-2 border-ink bg-cyan/40 px-1 font-mono text-[7px]">{m}</span>
+        ))}
+        <span className="mt-auto font-mono text-[7px] opacity-60">100 % en local · Ollama</span>
+      </div>
+    </div>
   );
 }
 
 export const mockups = {
+  data: [DataForecast, DataGender, DataPolicy],
+  ai: [MonsterChat, MonsterSearch, MonsterMemory],
   web: [PerfumeHome, PerfumeGrid, PerfumeCart],
   mobile: [QuartierMap, QuartierList, QuartierChat],
-  dashboard: [FleetKpis, FleetTable, FleetRoute],
 };

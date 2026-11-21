@@ -13,25 +13,24 @@ const bangers = Bangers({ weight: "400", subsets: ["latin"], variable: "--font-b
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const spaceMono = Space_Mono({ weight: ["400", "700"], subsets: ["latin"], variable: "--font-space-mono", display: "swap" });
 
-const title = "Zié Traoré — Développeur fullstack, Big Data & IA";
+const title = "Traoré Zié Mohamed Allassane Junior — Data / IA & développeur fullstack";
 const description =
-  "Portfolio de Zié Traoré, développeur fullstack à Abidjan et étudiant en Master Big Data & IA (ESATIC). Projets, parcours et contact.";
+  "Portfolio de Traoré Zié Mohamed Allassane Junior, étudiant en Master 2 Big Data & IA (ESATIC / ESTIA) et développeur fullstack à Abidjan. Disponible immédiatement pour un stage de six mois en Data / IA.";
 
 export const metadata = {
-  // Sur Vercel, l'URL de production est détectée automatiquement.
-  // Ailleurs, définir NEXT_PUBLIC_SITE_URL (ex. https://zie-traore.dev) pour les aperçus de partage.
-  ...(process.env.NEXT_PUBLIC_SITE_URL && { metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL) }),
+  // URL publique du site (aperçus de partage). NEXT_PUBLIC_SITE_URL la remplace si besoin.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || profile.siteUrl),
   title,
   description,
   authors: [{ name: profile.name }],
-  keywords: ["Zié Traoré", "développeur fullstack", "Big Data", "IA", "data science", "Abidjan", "Côte d'Ivoire", "portfolio"],
+  keywords: ["Traoré Zié Mohamed Allassane Junior", "Zié Traoré", "stage data", "stage IA", "Power BI", "développeur fullstack", "Big Data", "IA", "data science", "Abidjan", "Côte d'Ivoire", "portfolio"],
   openGraph: {
     title,
     description,
     type: "profile",
     locale: "fr_FR",
     alternateLocale: ["en_US"],
-    siteName: profile.shortName,
+    siteName: profile.name,
   },
   twitter: { card: "summary_large_image", title, description },
 };
@@ -58,10 +57,14 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: profile.name,
-  jobTitle: "Développeur fullstack — Big Data & IA",
+  givenName: profile.givenNames,
+  familyName: profile.familyName,
+  jobTitle: "Étudiant en Master 2 Big Data & IA — Développeur fullstack",
+  url: profile.siteUrl,
   email: `mailto:${profile.contact.email}`,
   address: { "@type": "PostalAddress", addressLocality: "Abidjan", addressCountry: "CI" },
-  alumniOf: ["Institut Ivoirien de Technologie", "ESATIC"],
+  alumniOf: ["Institut Ivoirien de Technologie", "ESATIC", "ESTIA"],
+  knowsLanguage: ["fr", "en"],
   sameAs: [profile.contact.linkedin, profile.contact.github],
 };
 

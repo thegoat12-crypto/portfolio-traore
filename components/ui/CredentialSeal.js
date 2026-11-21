@@ -6,7 +6,7 @@ export default function CredentialSeal({ degree, org }) {
   const label = `${degree} • ${org} • `;
 
   return (
-    <div className="relative h-40 w-40 shrink-0 sm:h-48 sm:w-48" title={profile.legalName} aria-hidden>
+    <div className="relative h-40 w-40 shrink-0 sm:h-48 sm:w-48" title={profile.name} aria-hidden>
       <svg viewBox="0 0 200 200" className="animate-spin-slow h-full w-full">
         <defs>
           <path id="seal-circle" d="M 100,100 m -80,0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0" />

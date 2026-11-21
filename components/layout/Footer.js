@@ -39,7 +39,7 @@ export default function Footer() {
 
       <div className="relative mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 py-6 text-xs opacity-70 sm:flex-row">
         <span>
-          © {year} {profile.shortName} — {t.footer.rights}
+          © {year} {profile.name} — {t.footer.rights}
         </span>
         <a href="#top" className="flex items-center gap-1 hover:opacity-100">
           <TbArrowUp aria-hidden /> {t.footer.backToTop}

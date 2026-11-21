@@ -259,6 +259,38 @@ h1, h2, h3, h4 {
   transition: opacity 0.5s steps(4), transform 0.5s steps(4);
 }
 
+/* ---------- Bandeau de compétences ---------- */
+
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.marquee-forward {
+  animation: marquee-x 32s linear infinite;
+}
+
+.marquee-reverse {
+  animation: marquee-x 32s linear infinite reverse;
+}
+
+.marquee-row:hover ul {
+  animation-play-state: paused;
+}
+
+.skill-sticker {
+  transition: transform 0.2s steps(3);
+}
+
+.skill-sticker:hover {
+  transform: rotate(0deg) scale(1.12) translateY(-4px);
+}
+
 /* ---------- Décor animé de fond ---------- */
 
 /* le « O » de l'intro se balance au bout de son fil (pivot très haut = fil long) */
@@ -447,7 +479,9 @@ h1, h2, h3, h4 {
     transition-duration: 0.01ms !important;
   }
 
-  .marquee-track {
+  .marquee-track,
+  .marquee-forward,
+  .marquee-reverse {
     animation: none;
   }
 

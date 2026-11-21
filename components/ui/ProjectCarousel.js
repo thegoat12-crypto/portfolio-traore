@@ -41,7 +41,7 @@ export default function ProjectCarousel({ meta, title, labels, bg }) {
   return (
     <div
       ref={ref}
-      className={`relative h-48 overflow-hidden border-b-[3px] border-current ${bg}`}
+      className={`relative h-56 overflow-hidden border-b-[3px] border-current sm:h-64 ${bg}`}
       role="region"
       aria-roledescription="carousel"
       aria-label={title}
