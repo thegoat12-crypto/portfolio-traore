@@ -533,9 +533,7 @@ h1, h2, h3, h4 {
 
 /* ---------- Intro ---------- */
 
-[data-splash="off"] .splash {
-  display: none;
-}
+/* l'intro s'affiche à chaque visite ; avec « animations réduites », elle reste immobile */
 
 /* ---------- Accessibilité : animations réduites ---------- */
 

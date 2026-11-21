@@ -42,9 +42,6 @@ export default function SplashScreen() {
   const finish = useCallback((delay = 0) => {
     if (done.current) return;
     done.current = true;
-    try {
-      sessionStorage.setItem("splash-seen", "1");
-    } catch {}
     setTimeout(() => {
       setState("hiding");
       setTimeout(() => setState("gone"), FADE_DURATION);
@@ -52,13 +49,7 @@ export default function SplashScreen() {
   }, []);
 
   useEffect(() => {
-    // déjà vue cette session (le script du <head> a posé data-splash="off") : on retire tout de suite
-    if (document.documentElement.dataset.splash === "off") {
-      done.current = true;
-      const id = setTimeout(() => setState("gone"), 0);
-      return () => clearTimeout(id);
-    }
-
+    // affichée à chaque ouverture du site ; un clic ou Échap la passe
     const start = performance.now();
     const onLoad = () => finish(Math.max(MIN_DURATION - (performance.now() - start), 0));
     const onKey = (e) => e.key === "Escape" && finish();
