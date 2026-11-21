@@ -6,157 +6,170 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { profile } from "@/data/profile";
 import { playTvSound, soundPref, startMusic } from "@/lib/sound";
 
-const NOISE_DURATION = 700; // neige avant que l'image apparaisse
-const AUTO_EXIT = 6500; // sans clic, l'intro se ferme seule
-const EXIT_DURATION = 650; // plongée dans l'écran
+const AUTO_ON = 2600; // sans clic, la télé s'allume seule (en silence)
+const AUTO_EXIT = 7000; // puis l'intro se ferme seule
+const NOISE_MS = 900; // neige après l'allumage
+const SHOW_MS = 1300; // le personnage à l'écran avant la plongée
+const EXIT_MS = 650;
 
-// Télé cathodique rétro dessinée en CSS (aucune image sauf le personnage)
-function RetroTV({ phase }) {
+// Télé cathodique réaliste : boîtier plastique sombre, écran bombé en verre,
+// boutons rotatifs, grille de haut-parleur, antennes métalliques.
+function RealTV({ phase }) {
+  const off = phase === "off";
   return (
-    <div className={`tv relative w-[min(70vw,340px)] ${phase === "exit" ? "tv-zoom" : ""}`} aria-hidden>
-      {/* antennes */}
-      <div className="absolute -top-14 left-1/2 h-16 w-1 origin-bottom -translate-x-6 -rotate-[28deg] rounded-full bg-paper" />
-      <div className="absolute -top-14 left-1/2 h-16 w-1 origin-bottom translate-x-6 rotate-[28deg] rounded-full bg-paper" />
-      <div className="absolute -top-16 left-1/2 h-3 w-3 -translate-x-[2.15rem] rounded-full bg-pink" />
-      <div className="absolute -top-16 left-1/2 h-3 w-3 translate-x-[1.65rem] rounded-full bg-cyan" />
+    <div className={`tv relative w-[min(78vw,400px)] ${phase === "exit" ? "tv-zoom" : ""}`} aria-hidden>
+      {/* antennes télescopiques */}
+      <div className="absolute -top-[4.6rem] left-1/2 h-20 w-[3px] origin-bottom -translate-x-8 -rotate-[30deg] rounded-full bg-gradient-to-r from-[#8d8f96] via-[#e9eaee] to-[#6d6f76]" />
+      <div className="absolute -top-[4.6rem] left-1/2 h-20 w-[3px] origin-bottom translate-x-8 rotate-[26deg] rounded-full bg-gradient-to-r from-[#8d8f96] via-[#e9eaee] to-[#6d6f76]" />
+      <div className="absolute -top-3 left-1/2 h-4 w-14 -translate-x-1/2 rounded-t-full bg-gradient-to-b from-[#3a3b41] to-[#1b1c20]" />
 
-      {/* caisse */}
-      <div className="relative aspect-[4/3.3] rounded-[28px] border-[5px] border-ink bg-yellow shadow-[8px_8px_0_0_var(--color-pink)]">
-        <div className="halftone absolute inset-0 rounded-[22px] text-ink !opacity-15" />
-
-        {/* écran */}
-        <div className="absolute bottom-[11%] left-[6%] right-[26%] top-[9%] overflow-hidden rounded-[26px] border-[5px] border-ink bg-ink">
-          <div className={`tv-screen absolute inset-0 ${phase === "noise" ? "" : "tv-on"}`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-pink via-[#7a2bd6] to-cyan" />
-            <div className="halftone absolute inset-0 text-ink !opacity-30" />
-            {profile.avatar && (
-              <Image src={profile.avatar} alt="" fill priority sizes="260px" className="object-cover object-top" />
-            )}
+      {/* boîtier */}
+      <div className="tv-body relative aspect-[4/3.15] rounded-[22px] p-[5%]">
+        <div className="flex h-full gap-[4%]">
+          {/* écran : cadre intérieur + verre bombé */}
+          <div className="tv-bezel relative flex-1 rounded-[18px] p-[5%]">
+            <div className="tv-glass relative h-full w-full overflow-hidden">
+              <div className={`tv-screen absolute inset-0 ${phase === "on" || phase === "exit" ? "tv-on" : ""}`}>
+                <div className="absolute inset-0 bg-gradient-to-br from-pink via-[#7a2bd6] to-cyan" />
+                <div className="halftone absolute inset-0 text-ink !opacity-25" />
+                {profile.avatar && <Image src={profile.avatar} alt="" fill priority sizes="300px" className="object-cover object-top" />}
+              </div>
+              <div className={`tv-noise absolute inset-0 ${phase === "noise" ? "opacity-100" : "opacity-0"}`} />
+              <div className="tv-scanlines pointer-events-none absolute inset-0" />
+              <div className="tv-reflection pointer-events-none absolute inset-0" />
+              {off && <div className="tv-off-dot absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full" />}
+            </div>
           </div>
-          {/* neige */}
-          <div className={`tv-noise absolute inset-0 ${phase === "noise" ? "opacity-100" : "opacity-0"}`} />
-          {/* lignes de balayage + reflet bombé */}
-          <div className="tv-scanlines pointer-events-none absolute inset-0" />
-          <div className="pointer-events-none absolute inset-0 rounded-[20px] bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.28),transparent_45%),radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.55))]" />
-        </div>
 
-        {/* panneau de commande */}
-        <div className="absolute bottom-[11%] right-[5%] top-[9%] flex w-[15%] flex-col items-center gap-3 pt-1">
-          <span className="aspect-square w-full rounded-full border-[4px] border-ink bg-pink" />
-          <span className="aspect-square w-[80%] rounded-full border-[4px] border-ink bg-cyan" />
-          <div className="mt-auto flex w-full flex-col gap-1.5">
-            {[0, 1, 2, 3].map((i) => (
-              <span key={i} className="h-1 w-full rounded-full bg-ink" />
-            ))}
+          {/* panneau de commande */}
+          <div className="flex w-[19%] flex-col items-center gap-[8%] py-[4%]">
+            <span className="tv-knob aspect-square w-[86%] rounded-full" />
+            <span className="tv-knob aspect-square w-[70%] rounded-full" />
+            <div className="tv-grille mt-auto aspect-[3/4] w-full rounded-md" />
+            <div className="flex w-full items-center justify-between px-[8%]">
+              <span className={`h-2 w-2 rounded-full ${off ? "bg-[#ff3b30] shadow-[0_0_6px_#ff3b30]" : "bg-[#35e06b] shadow-[0_0_8px_#35e06b]"}`} />
+              <span className="h-2 w-5 rounded-sm bg-[#111214] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />
+            </div>
           </div>
         </div>
       </div>
 
       {/* pieds */}
-      <div className="flex justify-between px-[18%]">
-        <span className="h-5 w-4 -skew-x-12 border-x-[4px] border-b-[4px] border-ink bg-yellow" />
-        <span className="h-5 w-4 skew-x-12 border-x-[4px] border-b-[4px] border-ink bg-yellow" />
+      <div className="flex justify-between px-[14%]">
+        <span className="h-4 w-10 rounded-b-md bg-gradient-to-b from-[#1b1c20] to-[#0b0b0d]" />
+        <span className="h-4 w-10 rounded-b-md bg-gradient-to-b from-[#1b1c20] to-[#0b0b0d]" />
       </div>
     </div>
   );
 }
 
-const SPARKS = [
-  ["8%", "18%", 18, "0s"], ["88%", "26%", 14, "-1s"], ["14%", "72%", 22, "-0.6s"],
-  ["80%", "70%", 26, "-1.6s"], ["30%", "40%", 10, "-0.3s"], ["70%", "42%", 12, "-1.2s"],
-];
-
-function Sparkle({ x, y, size, delay }) {
-  return (
-    <svg viewBox="0 0 24 24" className="sparkle absolute text-yellow" style={{ left: x, top: y, width: size, height: size, animationDelay: delay }} aria-hidden>
-      <path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z" fill="currentColor" />
-    </svg>
-  );
-}
-
 export default function SplashScreen() {
   const { t } = useLanguage();
-  const [phase, setPhase] = useState("noise"); // noise → on → exit → gone
+  const [phase, setPhase] = useState("off"); // off → noise → on → exit → gone
+  const phaseRef = useRef("off");
+  const timers = useRef([]);
   const done = useRef(false);
 
-  const finish = useCallback((withSound = false) => {
-    if (done.current) return;
-    done.current = true;
-    if (withSound) {
-      playTvSound();
-      if (soundPref()) setTimeout(startMusic, 350);
-    }
-    setPhase("exit");
-    setTimeout(() => setPhase("gone"), EXIT_DURATION);
+  const go = useCallback((p) => {
+    phaseRef.current = p;
+    setPhase(p);
   }, []);
 
+  const later = (fn, ms) => timers.current.push(setTimeout(fn, ms));
+
+  const exit = useCallback(
+    (withMusic) => {
+      if (done.current) return;
+      done.current = true;
+      if (withMusic && soundPref()) startMusic();
+      go("exit");
+      later(() => go("gone"), EXIT_MS);
+    },
+    [go],
+  );
+
+  // allume la télé ; avec le son si c'est un clic (geste exigé par le navigateur)
+  const turnOn = useCallback(
+    (withSound) => {
+      if (phaseRef.current !== "off") return false;
+      if (withSound) playTvSound();
+      go("noise");
+      later(() => go("on"), NOISE_MS);
+      return true;
+    },
+    [go],
+  );
+
+  const enter = useCallback(() => {
+    if (done.current) return;
+    if (turnOn(true)) {
+      later(() => exit(true), NOISE_MS + SHOW_MS);
+    } else {
+      playTvSound();
+      exit(true);
+    }
+  }, [turnOn, exit]);
+
   useEffect(() => {
-    const turnOn = setTimeout(() => setPhase((p) => (p === "noise" ? "on" : p)), NOISE_DURATION);
-    const auto = setTimeout(() => finish(false), AUTO_EXIT);
-    const onKey = (e) => (e.key === "Escape" || e.key === "Enter") && finish(true);
+    const list = timers.current;
+    list.push(setTimeout(() => turnOn(false), AUTO_ON));
+    list.push(setTimeout(() => exit(false), AUTO_EXIT));
+    const onKey = (e) => {
+      if (e.key === "Enter" || e.key === " ") enter();
+      if (e.key === "Escape") exit(false);
+    };
     window.addEventListener("keydown", onKey);
     return () => {
-      clearTimeout(turnOn);
-      clearTimeout(auto);
+      list.forEach(clearTimeout);
       window.removeEventListener("keydown", onKey);
     };
-  }, [finish]);
+  }, [turnOn, exit, enter]);
 
   if (phase === "gone") return null;
 
   return (
     <div
-      className={`splash fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden px-4 text-paper transition-opacity ${
+      className={`splash fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-ink px-4 text-paper transition-opacity ${
         phase === "exit" ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
-      style={{ transitionDuration: `${EXIT_DURATION}ms` }}
-      onClick={() => finish(true)}
+      style={{ transitionDuration: `${EXIT_MS}ms` }}
+      onClick={enter}
       role="presentation"
     >
-      {/* anneaux concentriques façon générique de dessin animé (couleurs du site) */}
+      {/* fond Spider-Verse : anneaux sombres, trame de points, halos rose et cyan */}
       <div className="splash-rings absolute inset-0" aria-hidden />
+      <div className="halftone absolute -left-20 top-10 h-80 w-80 rounded-full text-pink !opacity-30" aria-hidden />
+      <div className="halftone absolute -right-16 bottom-6 h-80 w-80 rounded-full text-cyan !opacity-30" aria-hidden />
       <div className="film-grain pointer-events-none absolute inset-0" aria-hidden />
-      {SPARKS.map(([x, y, size, delay]) => (
-        <Sparkle key={x + y} x={x} y={y} size={size} delay={delay} />
-      ))}
 
-      <div className="relative flex flex-col items-center">
-        {/* nom en arc */}
-        <svg viewBox="0 0 1000 300" className="w-[min(94vw,700px)] overflow-visible" aria-label={profile.name}>
-          <defs>
-            <path id="arc" d="M 60 270 Q 500 20 940 270" />
-          </defs>
-          <text className="splash-title" textAnchor="middle">
-            <textPath href="#arc" startOffset="50%">
-              {profile.familyName.toUpperCase()}
-            </textPath>
-          </text>
-        </svg>
-        <p className="-mt-4 font-accent text-2xl text-yellow drop-shadow-[3px_3px_0_var(--color-ink)] sm:-mt-8 sm:text-4xl" aria-hidden>
-          Zié Mohamed Allassane Junior
+      <div className="relative flex flex-col items-center text-center">
+        <span className="caption-box">{t.splash.earth}</span>
+        <p className="misprint mt-4 font-display text-6xl font-bold leading-none sm:text-8xl" aria-label={profile.name}>
+          <span aria-hidden>{profile.familyName.toUpperCase()}</span>
         </p>
-        <p className="mt-1 font-accent text-xl italic tracking-wide text-paper drop-shadow-[2px_2px_0_var(--color-ink)] sm:text-2xl">
-          {t.splash.present}
+        <p className="misprint mt-2 font-display text-xl text-pink sm:text-3xl" aria-hidden>
+          {profile.givenNames.toUpperCase()}
         </p>
+        <p className="mt-2 font-mono text-xs uppercase tracking-[0.35em] text-paper/80 sm:text-sm">{t.splash.present}</p>
 
-        <div className="mt-16">
-          <RetroTV phase={phase} />
+        <div className="mt-20">
+          <RealTV phase={phase} />
         </div>
 
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            finish(true);
+            enter();
           }}
-          className="btn-pop panel-solid pulse-soft mt-6 rounded-full bg-yellow px-6 py-3 font-display text-base tracking-wide text-ink sm:text-lg"
+          className="btn-pop panel-solid mt-7 rounded-full bg-yellow px-6 py-3 font-display text-base tracking-wide text-ink sm:text-lg"
         >
-          ▶ {t.splash.enter}
+          ▶ {phase === "off" ? t.splash.turnOn : t.splash.enter}
         </button>
       </div>
 
-      <span className="absolute bottom-4 left-5 font-display text-xs opacity-70">{t.splash.edition}</span>
-      <span className="absolute bottom-4 right-5 font-display text-xs opacity-70">{t.splash.earth}</span>
+      <span className="absolute bottom-4 left-5 font-mono text-[10px] uppercase tracking-widest opacity-60">{t.splash.edition}</span>
+      <span className="absolute bottom-4 right-5 hidden font-mono text-[10px] uppercase tracking-widest opacity-60 sm:block">{t.splash.skip}</span>
     </div>
   );
 }
