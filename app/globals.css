@@ -637,6 +637,69 @@ h1, h2, h3, h4 {
   50% { transform: scale(1.06); }
 }
 
+/* ---------- Livre de BD (Parcours) : pages qui se tournent ---------- */
+
+.comic-stage {
+  perspective: 2200px;
+}
+
+.comic-page {
+  position: relative;
+  transform-origin: 0% 50%;
+  transform-style: preserve-3d;
+  transition: transform 0.9s var(--ease-out), box-shadow 0.9s var(--ease-out);
+  box-shadow: 6px 6px 0 0 var(--color-ink);
+}
+
+.dark .comic-page {
+  box-shadow: 6px 6px 0 0 var(--color-paper);
+}
+
+.comic-page.is-turned {
+  transform: rotateY(-178deg);
+  box-shadow: none;
+}
+
+.comic-front,
+.comic-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.comic-back {
+  transform: rotateY(180deg);
+}
+
+/* pli de reliure à gauche */
+.comic-gutter {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.18), transparent);
+}
+
+/* coin corné en bas à droite : invite à tourner la page */
+.comic-curl {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, transparent 50%, var(--color-yellow) 50%);
+  box-shadow: -3px -3px 6px rgba(0, 0, 0, 0.18);
+  border-top-left-radius: 6px;
+}
+
+/* bulle de dialogue avec sa pointe */
+.comic-bubble {
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 0 currentColor;
+}
+
+.comic-bubble::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 28px;
+  border: 12px solid transparent;
+  border-bottom-color: currentColor;
+  border-top: 0;
+}
+
 /* ---------- Animations liées au défilement (Parcours, Réalisations, Projets…) ----------
    Pilotées par la position de scroll elle-même (animation-timeline: view()) :
    aucune ligne de JavaScript, exécutées par le compositeur, donc fluides.
@@ -773,6 +836,14 @@ h1, h2, h3, h4 {
   .tv-screen {
     transform: none;
     opacity: 1;
+  }
+
+  .comic-page {
+    transition: none;
+  }
+
+  .comic-page.is-turned {
+    visibility: hidden;
   }
 
   .swing,
