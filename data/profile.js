@@ -53,9 +53,9 @@ export const profile = {
     esatic: { name: "ESATIC", initials: "ES", color: "cyan", logo: "/logos/esatic.webp" },
     estia: { name: "ESTIA — École Supérieure des Technologies Industrielles Avancées", initials: "ESTIA", color: "pink", logo: "/logos/estia.webp" },
     iit: { name: "Institut Ivoirien de Technologie", initials: "IIT", color: "yellow", logo: "/logos/iit.webp" },
-    blo: { name: "Blo SARL", initials: "BLO", color: "pink", logo: null },
+    blo: { name: "Blo SARL", initials: "BLO", color: "pink", logo: "/logos/blo.webp" },
     ebenyx: { name: "Ebenyx Technologies", initials: "EX", color: "cyan", logo: "/logos/ebenyx.webp" },
-    worlddatalab: { name: "World Data Lab", initials: "WDL", color: "yellow", logo: null },
+    worlddatalab: { name: "World Data Lab", initials: "WDL", color: "yellow", logo: "/logos/worlddatalab.webp" },
   },
 
   // Liens, technos et images des projets, dans le même ordre que translations.projects.items.

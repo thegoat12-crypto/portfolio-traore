@@ -520,6 +520,55 @@ h1, h2, h3, h4 {
   opacity: 0;
 }
 
+/* ---------- Intro façon générique de dessin animé ---------- */
+
+.splash-rings {
+  background:
+    radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.25), transparent 22%),
+    repeating-radial-gradient(circle at 50% 55%, #ff2e88 0 9vmax, #d01f72 9vmax 18vmax, #9b2bd0 18vmax 27vmax, #5b1fa8 27vmax 36vmax, #2a1260 36vmax 45vmax);
+  animation: rings-pulse 6s ease-in-out infinite;
+}
+
+@keyframes rings-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.film-grain {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  mix-blend-mode: multiply;
+  box-shadow: inset 0 0 18vmax rgba(10, 10, 18, 0.75);
+}
+
+.splash-title {
+  font-family: var(--font-accent);
+  font-size: 190px;
+  letter-spacing: 6px;
+  fill: var(--color-yellow);
+  stroke: var(--color-ink);
+  stroke-width: 10px;
+  paint-order: stroke fill;
+  filter: drop-shadow(8px 10px 0 var(--color-ink));
+}
+
+.sparkle {
+  animation: sparkle 2.2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(0.6) rotate(0deg); opacity: 0.6; }
+  50% { transform: scale(1.15) rotate(20deg); opacity: 1; }
+}
+
+.pulse-soft {
+  animation: pulse-soft 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
 /* ---------- Animations liées au défilement (Parcours, Réalisations, Projets…) ----------
    Pilotées par la position de scroll elle-même (animation-timeline: view()) :
    aucune ligne de JavaScript, exécutées par le compositeur, donc fluides.
@@ -646,7 +695,10 @@ h1, h2, h3, h4 {
   }
 
   .tv-noise,
-  .tv-on {
+  .tv-on,
+  .splash-rings,
+  .sparkle,
+  .pulse-soft {
     animation: none !important;
   }
 

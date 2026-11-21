@@ -34,6 +34,8 @@ export const translations = {
       speech: "IL EST TEMPS DE CONSTRUIRE.",
       skip: "Cliquer ou Échap pour passer",
       loading: "Chargement",
+      present: "présente son portfolio",
+      enter: "Entrer dans le programme",
     },
     hero: {
       role: "Étudiant en Master 2 Big Data & IA · Développeur fullstack",
@@ -245,6 +247,8 @@ export const translations = {
       speech: "TIME TO GO BUILD SOMETHING.",
       skip: "Click or press Esc to skip",
       loading: "Loading",
+      present: "presents his portfolio",
+      enter: "Enter the show",
     },
     hero: {
       role: "Big Data & AI Master's student (M2) · Fullstack developer",

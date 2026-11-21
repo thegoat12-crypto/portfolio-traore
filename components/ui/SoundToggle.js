@@ -1,121 +1,34 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { TbVolume, TbVolumeOff } from "react-icons/tb";
 import { profile } from "@/data/profile";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { isPlaying, onSoundChange, soundPref, startMusic, toggleMusic } from "@/lib/sound";
 
-const VOLUME = 0.32; // musique de fond : douce
-const FADE_MS = 1200;
-
-function readPref() {
-  try {
-    return localStorage.getItem("sound") === "on";
-  } catch {
-    return false;
-  }
-}
-
-function savePref(on) {
-  try {
-    localStorage.setItem("sound", on ? "on" : "off");
-  } catch {}
-}
-
-// Bouton son (bas droite). Coupé par défaut ; le fichier n'est chargé qu'à l'activation.
-// Si le visiteur l'avait activé, la musique reprend à sa première interaction
-// (les navigateurs interdisent la lecture automatique avec son).
+// Bouton son (bas droite). La musique est activée par défaut et démarre au premier
+// geste du visiteur (le navigateur l'exige) ; un clic ici la coupe ou la relance.
 export default function SoundToggle() {
   const { t } = useLanguage();
   const [on, setOn] = useState(false);
-  const audioRef = useRef(null);
-  const fadeRef = useRef(null);
 
-  function getAudio() {
-    if (!audioRef.current) {
-      const a = new Audio(profile.music);
-      a.loop = true;
-      a.volume = 0;
-      a.preload = "auto";
-      audioRef.current = a;
-    }
-    return audioRef.current;
-  }
-
-  function fadeTo(target, then) {
-    const a = getAudio();
-    clearInterval(fadeRef.current);
-    const start = a.volume;
-    const t0 = performance.now();
-    fadeRef.current = setInterval(() => {
-      const k = Math.min((performance.now() - t0) / FADE_MS, 1);
-      a.volume = start + (target - start) * k;
-      if (k === 1) {
-        clearInterval(fadeRef.current);
-        then?.();
-      }
-    }, 40);
-  }
-
-  function play() {
-    const a = getAudio();
-    a.play()
-      .then(() => {
-        setOn(true);
-        fadeTo(VOLUME);
-      })
-      .catch(() => setOn(false));
-  }
-
-  function stop() {
-    setOn(false);
-    fadeTo(0, () => audioRef.current?.pause());
-  }
-
-  function toggle() {
-    if (on) {
-      stop();
-      savePref(false);
-    } else {
-      play();
-      savePref(true);
-    }
-  }
-
-  // préférence mémorisée : reprendre à la première interaction
   useEffect(() => {
-    if (!profile.music || !readPref()) return;
-    const resume = (e) => {
-      if (e.target.closest?.("[data-sound-toggle]")) return; // le bouton gère lui-même
-      play();
-      window.removeEventListener("pointerdown", resume);
-      window.removeEventListener("keydown", resume);
+    const off = onSoundChange(setOn);
+    setTimeout(() => setOn(isPlaying()), 0);
+    // si l'intro a été passée sans clic : démarrer au premier geste sur la page
+    const first = (e) => {
+      if (e.target.closest?.("[data-sound-toggle]")) return;
+      if (soundPref()) startMusic();
+      window.removeEventListener("pointerdown", first);
+      window.removeEventListener("keydown", first);
     };
-    window.addEventListener("pointerdown", resume);
-    window.addEventListener("keydown", resume);
+    window.addEventListener("pointerdown", first);
+    window.addEventListener("keydown", first);
     return () => {
-      window.removeEventListener("pointerdown", resume);
-      window.removeEventListener("keydown", resume);
+      off();
+      window.removeEventListener("pointerdown", first);
+      window.removeEventListener("keydown", first);
     };
-    // play est stable pour cet usage (lecture du même élément audio)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // couper le son quand l'onglet est caché, reprendre au retour
-  useEffect(() => {
-    const onVis = () => {
-      const a = audioRef.current;
-      if (!a || !on) return;
-      if (document.hidden) a.pause();
-      else a.play().catch(() => {});
-    };
-    document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
-  }, [on]);
-
-  useEffect(() => () => {
-    clearInterval(fadeRef.current);
-    audioRef.current?.pause();
   }, []);
 
   if (!profile.music) return null;
@@ -124,7 +37,7 @@ export default function SoundToggle() {
     <button
       type="button"
       data-sound-toggle
-      onClick={toggle}
+      onClick={toggleMusic}
       aria-pressed={on}
       aria-label={on ? t.meta.soundOff : t.meta.soundOn}
       title={on ? t.meta.soundOff : t.meta.soundOn}
@@ -133,11 +46,7 @@ export default function SoundToggle() {
       {on ? <TbVolume size={18} aria-hidden /> : <TbVolumeOff size={18} aria-hidden />}
       <span className="flex h-4 items-end gap-[3px]" aria-hidden>
         {[0, 1, 2, 3].map((i) => (
-          <span
-            key={i}
-            className={`eq-bar w-[3px] rounded-full bg-ink ${on ? "eq-on" : ""}`}
-            style={{ animationDelay: `${i * -0.22}s` }}
-          />
+          <span key={i} className={`eq-bar w-[3px] rounded-full bg-ink ${on ? "eq-on" : ""}`} style={{ animationDelay: `${i * -0.22}s` }} />
         ))}
       </span>
       <span className="hidden sm:inline">{on ? t.meta.soundLabelOn : t.meta.soundLabelOff}</span>

@@ -4,25 +4,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { profile } from "@/data/profile";
+import { playTvSound, soundPref, startMusic } from "@/lib/sound";
 
 const NOISE_DURATION = 700; // neige avant que l'image apparaisse
-const MIN_DURATION = 2600; // durée minimale de l'intro
+const AUTO_EXIT = 6500; // sans clic, l'intro se ferme seule
 const EXIT_DURATION = 650; // plongée dans l'écran
-
-// Le « O » de TRAORÉ : la vraie lettre, suspendue à un fil de toile, qui se balance.
-function PortalO() {
-  return (
-    <span className="swing relative inline-block text-pink" aria-hidden>
-      <span className="absolute left-1/2 w-[3px] -translate-x-1/2 bg-pink" style={{ bottom: "calc(100% - 0.12em)", height: "60vh" }} />
-      O
-    </span>
-  );
-}
 
 // Télé cathodique rétro dessinée en CSS (aucune image sauf le personnage)
 function RetroTV({ phase }) {
   return (
-    <div className={`tv relative w-[min(72vw,360px)] ${phase === "exit" ? "tv-zoom" : ""}`} aria-hidden>
+    <div className={`tv relative w-[min(70vw,340px)] ${phase === "exit" ? "tv-zoom" : ""}`} aria-hidden>
       {/* antennes */}
       <div className="absolute -top-14 left-1/2 h-16 w-1 origin-bottom -translate-x-6 -rotate-[28deg] rounded-full bg-paper" />
       <div className="absolute -top-14 left-1/2 h-16 w-1 origin-bottom translate-x-6 rotate-[28deg] rounded-full bg-paper" />
@@ -70,34 +61,43 @@ function RetroTV({ phase }) {
   );
 }
 
+const SPARKS = [
+  ["8%", "18%", 18, "0s"], ["88%", "26%", 14, "-1s"], ["14%", "72%", 22, "-0.6s"],
+  ["80%", "70%", 26, "-1.6s"], ["30%", "40%", 10, "-0.3s"], ["70%", "42%", 12, "-1.2s"],
+];
+
+function Sparkle({ x, y, size, delay }) {
+  return (
+    <svg viewBox="0 0 24 24" className="sparkle absolute text-yellow" style={{ left: x, top: y, width: size, height: size, animationDelay: delay }} aria-hidden>
+      <path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z" fill="currentColor" />
+    </svg>
+  );
+}
+
 export default function SplashScreen() {
   const { t } = useLanguage();
   const [phase, setPhase] = useState("noise"); // noise → on → exit → gone
   const done = useRef(false);
 
-  const finish = useCallback((delay = 0) => {
+  const finish = useCallback((withSound = false) => {
     if (done.current) return;
     done.current = true;
-    setTimeout(() => {
-      setPhase("exit");
-      setTimeout(() => setPhase("gone"), EXIT_DURATION);
-    }, delay);
+    if (withSound) {
+      playTvSound();
+      if (soundPref()) setTimeout(startMusic, 350);
+    }
+    setPhase("exit");
+    setTimeout(() => setPhase("gone"), EXIT_DURATION);
   }, []);
 
   useEffect(() => {
-    // affichée à chaque ouverture du site ; un clic ou Échap la passe
-    const start = performance.now();
     const turnOn = setTimeout(() => setPhase((p) => (p === "noise" ? "on" : p)), NOISE_DURATION);
-    const onLoad = () => finish(Math.max(MIN_DURATION - (performance.now() - start), 0));
-    const onKey = (e) => e.key === "Escape" && finish();
-
-    if (document.readyState === "complete") onLoad();
-    else window.addEventListener("load", onLoad);
+    const auto = setTimeout(() => finish(false), AUTO_EXIT);
+    const onKey = (e) => (e.key === "Escape" || e.key === "Enter") && finish(true);
     window.addEventListener("keydown", onKey);
-
     return () => {
       clearTimeout(turnOn);
-      window.removeEventListener("load", onLoad);
+      clearTimeout(auto);
       window.removeEventListener("keydown", onKey);
     };
   }, [finish]);
@@ -106,50 +106,57 @@ export default function SplashScreen() {
 
   return (
     <div
-      className={`splash fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-ink px-6 text-paper transition-opacity ${
+      className={`splash fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden px-4 text-paper transition-opacity ${
         phase === "exit" ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
       style={{ transitionDuration: `${EXIT_DURATION}ms` }}
-      onClick={() => finish()}
+      onClick={() => finish(true)}
       role="presentation"
     >
-      <div className="halftone absolute -left-24 -top-24 h-72 w-72 rounded-full text-pink" />
-      <div className="halftone absolute -bottom-24 -right-24 h-72 w-72 rounded-full text-cyan" />
-      <div className="panel-solid absolute left-6 top-6 -rotate-6 bg-yellow px-3 py-1 font-display text-xs tracking-wide text-ink">
-        {t.splash.earth}
-      </div>
+      {/* anneaux concentriques façon générique de dessin animé (couleurs du site) */}
+      <div className="splash-rings absolute inset-0" aria-hidden />
+      <div className="film-grain pointer-events-none absolute inset-0" aria-hidden />
+      {SPARKS.map(([x, y, size, delay]) => (
+        <Sparkle key={x + y} x={x} y={y} size={size} delay={delay} />
+      ))}
 
-      <div className="relative flex w-full max-w-5xl flex-col items-center gap-10 md:flex-row md:justify-between md:gap-12">
-        <RetroTV phase={phase} />
+      <div className="relative flex flex-col items-center">
+        {/* nom en arc */}
+        <svg viewBox="0 0 1000 300" className="w-[min(94vw,700px)] overflow-visible" aria-label={profile.name}>
+          <defs>
+            <path id="arc" d="M 60 270 Q 500 20 940 270" />
+          </defs>
+          <text className="splash-title" textAnchor="middle">
+            <textPath href="#arc" startOffset="50%">
+              {profile.familyName.toUpperCase()}
+            </textPath>
+          </text>
+        </svg>
+        <p className="-mt-4 font-accent text-2xl text-yellow drop-shadow-[3px_3px_0_var(--color-ink)] sm:-mt-8 sm:text-4xl" aria-hidden>
+          Zié Mohamed Allassane Junior
+        </p>
+        <p className="mt-1 font-accent text-xl italic tracking-wide text-paper drop-shadow-[2px_2px_0_var(--color-ink)] sm:text-2xl">
+          {t.splash.present}
+        </p>
 
-        <div className="relative text-center md:text-left">
-          <p className="caption-box relative z-10 mb-3">{t.splash.welcome}</p>
-          <p className="misprint font-display font-bold" aria-label={profile.name}>
-            <span className="block text-6xl leading-[0.95] sm:text-7xl lg:text-8xl" aria-hidden>
-              TRA
-              <PortalO />
-              RÉ
-            </span>
-            <span className="mt-2 block text-xl leading-tight sm:text-2xl lg:text-3xl" aria-hidden>
-              ZIÉ MOHAMED ALLASSANE JUNIOR
-            </span>
-          </p>
-          <p className="mt-3 font-display text-lg text-cyan sm:text-xl">{t.hero.role}</p>
-          <div className="panel-solid relative mt-5 inline-block -rotate-1 bg-yellow px-4 py-2 font-display text-sm text-ink">
-            {t.splash.speech}
-          </div>
+        <div className="mt-16">
+          <RetroTV phase={phase} />
         </div>
+
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            finish(true);
+          }}
+          className="btn-pop panel-solid pulse-soft mt-6 rounded-full bg-yellow px-6 py-3 font-display text-base tracking-wide text-ink sm:text-lg"
+        >
+          ▶ {t.splash.enter}
+        </button>
       </div>
 
-      <div className="absolute bottom-6 left-6 flex flex-col gap-2 text-xs">
-        <div className="flex items-center gap-3 opacity-60">
-          <div className="h-[4px] w-24 overflow-hidden border border-current/30">
-            <div className="animate-loading-bar h-full bg-pink" />
-          </div>
-          {t.splash.loading}
-        </div>
-        <span className="opacity-40">{t.splash.skip}</span>
-      </div>
+      <span className="absolute bottom-4 left-5 font-display text-xs opacity-70">{t.splash.edition}</span>
+      <span className="absolute bottom-4 right-5 font-display text-xs opacity-70">{t.splash.earth}</span>
     </div>
   );
 }
