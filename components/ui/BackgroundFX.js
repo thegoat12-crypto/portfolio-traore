@@ -6,7 +6,7 @@
 const blobs = [
   { cls: "text-pink", style: { left: "-6%", top: "8%", width: "26rem", height: "26rem" }, depth: "parallax-slow", dur: "22s" },
   { cls: "text-cyan", style: { right: "-8%", top: "38%", width: "30rem", height: "30rem" }, depth: "parallax-fast", dur: "26s" },
-  { cls: "text-yellow", style: { left: "30%", top: "70%", width: "18rem", height: "18rem" }, depth: "parallax-mid", dur: "18s" },
+  { cls: "text-cyan", style: { left: "30%", top: "70%", width: "18rem", height: "18rem" }, depth: "parallax-mid", dur: "18s" },
   { cls: "text-pink", style: { right: "18%", top: "-6%", width: "14rem", height: "14rem" }, depth: "parallax-mid", dur: "20s" },
 ];
 
@@ -19,7 +19,7 @@ const threads = [
 const shards = [
   { style: { left: "12%", top: "46%" }, color: "border-cyan", size: "w-24 h-10", dur: "17s", rot: "-18deg" },
   { style: { right: "9%", top: "18%" }, color: "border-pink", size: "w-16 h-16", dur: "21s", rot: "24deg" },
-  { style: { left: "46%", top: "24%" }, color: "border-yellow", size: "w-20 h-8", dur: "15s", rot: "8deg" },
+  { style: { left: "46%", top: "24%" }, color: "border-cyan", size: "w-20 h-8", dur: "15s", rot: "8deg" },
   { style: { right: "30%", top: "82%" }, color: "border-cyan", size: "w-14 h-20", dur: "19s", rot: "-30deg" },
   { style: { left: "4%", top: "84%" }, color: "border-pink", size: "w-28 h-6", dur: "23s", rot: "14deg" },
 ];
@@ -44,7 +44,7 @@ export default function BackgroundFX() {
       {/* bulles de trame (points Ben-Day) */}
       {blobs.map((b, i) => (
         <div key={i} className={`absolute ${b.depth}`} style={b.style}>
-          <div className={`drift halftone h-full w-full rounded-full ${b.cls} !opacity-[0.16]`} style={{ animationDuration: b.dur }} />
+          <div className={`drift halftone h-full w-full rounded-full ${b.cls} !opacity-[0.09]`} style={{ animationDuration: b.dur }} />
         </div>
       ))}
 

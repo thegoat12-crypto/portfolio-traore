@@ -9,8 +9,8 @@ export default function Reveal({ children, className = "", delay = 0, as: Tag = 
   return (
     <Tag
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={`reveal ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"} ${className}`}
+      style={{ transitionDelay: `${Math.min(delay, 150)}ms` }}
+      className={`reveal ${isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"} ${className}`}
     >
       {children}
     </Tag>

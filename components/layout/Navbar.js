@@ -49,7 +49,7 @@ export default function Navbar() {
     <header
       className={`fixed left-0 right-0 top-0 z-50 border-b-4 transition-all duration-300 ${
         scrolled || open
-          ? "border-ink bg-paper/95 py-2 shadow-[0_6px_0_0_var(--color-pink)] backdrop-blur-md dark:border-paper dark:bg-ink/95"
+          ? "border-ink bg-paper py-2 shadow-[0_6px_0_0_var(--color-pink)] dark:border-paper dark:bg-ink"
           : "border-transparent bg-transparent py-5"
       }`}
     >

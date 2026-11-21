@@ -6,6 +6,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useCountUp } from "@/hooks/useCountUp";
 import LocalClock from "@/components/ui/LocalClock";
 import HeroScene from "@/components/ui/HeroScene";
+import GlitchTitle from "@/components/ui/GlitchTitle";
 import { TbArrowDown, TbDownload, TbMapPin } from "react-icons/tb";
 
 function Counter({ target, isActive }) {
@@ -52,14 +53,14 @@ export default function Hero() {
         <div>
           <p className="font-mono text-xs uppercase tracking-widest opacity-70">{t.hero.role}</p>
 
-          <h1 className="misprint mt-8 font-display font-bold md:mt-10" aria-label={profile.name}>
+          <GlitchTitle className="misprint mt-8 font-display font-bold md:mt-10" label={profile.name}>
             <span className="glitch-auto block text-7xl leading-[0.9] sm:text-8xl md:text-9xl" data-text={profile.familyName.toUpperCase()} aria-hidden>
               {profile.familyName.toUpperCase()}
             </span>
             <span className="glitch-auto glitch-late mt-2 block text-3xl leading-[1.05] text-pink sm:text-4xl md:text-5xl" data-text={profile.givenNames} aria-hidden>
               {profile.givenNames}
             </span>
-          </h1>
+          </GlitchTitle>
 
           <p className="mt-5 text-2xl opacity-85 md:text-3xl">{t.hero.tagline}</p>
 

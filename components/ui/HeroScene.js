@@ -34,8 +34,6 @@ function Windows({ x, w, h, seed }) {
           y={H - h + 14 + r * 18}
           width="7"
           height="9"
-          className={lit ? "blink" : undefined}
-          style={lit ? { animationDelay: `${-n * 9}s`, animationDuration: `${4 + n * 6}s` } : undefined}
           fill={lit ? (n > 0.92 ? "var(--color-pink)" : "var(--color-yellow)") : "var(--color-cyan)"}
           opacity={lit ? 1 : 0.18}
         />,
@@ -59,15 +57,16 @@ function Skyline() {
         <g key={i}>
           <rect x={x} y={H - h} width={w} height={h} className="fill-ink dark:fill-[#05050a]" />
           <rect x={x} y={H - h} width={w} height="4" fill={i % 3 === 0 ? "var(--color-pink)" : i % 3 === 1 ? "var(--color-cyan)" : "var(--color-yellow)"} />
-          {antenna && (
-            <>
-              <line x1={x + w / 2} y1={H - h} x2={x + w / 2} y2={H - h - 26} className="stroke-ink dark:stroke-[#05050a]" strokeWidth="3" />
-              <circle cx={x + w / 2} cy={H - h - 28} r="4" fill="var(--color-pink)" className="blink" style={{ animationDuration: "2s" }} />
-            </>
-          )}
+          {antenna && <line x1={x + w / 2} y1={H - h} x2={x + w / 2} y2={H - h - 26} className="stroke-ink dark:stroke-[#05050a]" strokeWidth="3" />}
           <Windows x={x} w={w} h={h} seed={i + 1} />
         </g>
       ))}
+      {/* feux des antennes : un seul groupe animé */}
+      <g className="blink" fill="var(--color-pink)">
+        {buildings.filter((b) => b[3]).map(([x, w, h]) => (
+          <circle key={x} cx={x + w / 2} cy={H - h - 28} r="4" />
+        ))}
+      </g>
     </svg>
   );
 }
