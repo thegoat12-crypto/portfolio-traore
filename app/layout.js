@@ -4,6 +4,8 @@ import SplashScreen from "@/components/ui/SplashScreen";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SkipLink from "@/components/ui/SkipLink";
 import BackgroundFX from "@/components/ui/BackgroundFX";
+import SoundToggle from "@/components/ui/SoundToggle";
+import { Analytics } from "@vercel/analytics/next";
 import { profile } from "@/data/profile";
 import "./globals.css";
 
@@ -86,7 +88,9 @@ export default function RootLayout({ children }) {
           <SplashScreen />
           <CustomCursor />
           {children}
+          <SoundToggle />
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );

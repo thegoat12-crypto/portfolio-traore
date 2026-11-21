@@ -16,6 +16,15 @@ export const profile = {
   // Photo (fichier dans /public, portrait 3:4). null = portrait illustré avec initiales.
   photo: "/photo-zie.jpg",
 
+  // Personnage BD (PNG/WebP à fond transparent) : affiché dans la télé de l'intro et dans le Profil.
+  avatar: "/avatar-tzm.webp",
+
+  // Musique de fond (boucle lo-fi originale, composée pour le site). null = pas de bouton son.
+  music: "/audio/lofi-tzm.mp3",
+
+  // Formulaire de contact : clé publique Web3Forms (elle indique seulement où livrer les messages).
+  web3formsKey: "4a500359-f62c-4976-860d-2840b3ffc70a",
+
   contact: {
     email: "ziemohamedallassanejuniortraor@gmail.com",
     phone: "+225 07 89 39 24 54",
@@ -41,11 +50,11 @@ export const profile = {
   // ex. "/logos/esatic.png" (PNG ou SVG, fond transparent ou blanc, carré de préférence).
   // Tant que logo vaut null, un badge avec les initiales est affiché.
   orgs: {
-    esatic: { name: "ESATIC", initials: "ES", color: "cyan", logo: null },
-    estia: { name: "ESTIA — École Supérieure des Technologies Industrielles Avancées", initials: "ESTIA", color: "pink", logo: null },
-    iit: { name: "Institut Ivoirien de Technologie", initials: "IIT", color: "yellow", logo: null },
+    esatic: { name: "ESATIC", initials: "ES", color: "cyan", logo: "/logos/esatic.webp" },
+    estia: { name: "ESTIA — École Supérieure des Technologies Industrielles Avancées", initials: "ESTIA", color: "pink", logo: "/logos/estia.webp" },
+    iit: { name: "Institut Ivoirien de Technologie", initials: "IIT", color: "yellow", logo: "/logos/iit.webp" },
     blo: { name: "Blo SARL", initials: "BLO", color: "pink", logo: null },
-    ebenyx: { name: "Ebenyx Technologies", initials: "EX", color: "cyan", logo: null },
+    ebenyx: { name: "Ebenyx Technologies", initials: "EX", color: "cyan", logo: "/logos/ebenyx.webp" },
     worlddatalab: { name: "World Data Lab", initials: "WDL", color: "yellow", logo: null },
   },
 

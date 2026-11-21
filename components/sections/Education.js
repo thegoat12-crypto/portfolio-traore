@@ -18,7 +18,7 @@ export default function Education() {
           <ol className="mt-10 space-y-5">
             {t.education.items.map((item, index) => (
               <li key={item.title} className={index % 2 ? "scroll-in-left" : "scroll-in"}>
-                <div className="panel flex items-center gap-5 p-5">
+                <div className="panel flex flex-col items-start gap-4 p-5 sm:flex-row sm:items-center sm:gap-5">
                   <OrgLogo orgKey={item.orgKey} size={64} className={index % 2 ? "rotate-6" : "-rotate-6"} />
                   <div>
                     <span className="font-mono text-xs text-pink">{item.year}</span>

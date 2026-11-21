@@ -56,7 +56,7 @@ export default function Experience() {
                     <span className="ml-auto mr-12 font-mono text-xs opacity-40 sm:mr-14">#{String(items.length - index).padStart(2, "0")}</span>
                   </div>
 
-                  <div className="mt-4 flex items-center gap-4">
+                  <div className="mt-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                     <OrgLogo orgKey={item.orgKey} size={56} className="-rotate-6" />
                     <div>
                       <h3 className="font-display text-2xl font-bold">{item.title}</h3>
