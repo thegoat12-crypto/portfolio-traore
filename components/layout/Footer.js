@@ -10,7 +10,7 @@ export default function Footer() {
   const words = t.footer.marquee;
 
   return (
-    <footer className="relative overflow-hidden bg-ink text-paper">
+    <footer className="relative overflow-hidden border-t-[3px] border-ink bg-paper text-ink dark:border-paper dark:bg-ink dark:text-paper">
       <div className="halftone absolute -top-24 right-0 h-72 w-72 rounded-full text-pink" aria-hidden />
       <div className="halftone absolute -bottom-24 -left-10 h-72 w-72 rounded-full text-cyan" aria-hidden />
 
@@ -21,13 +21,13 @@ export default function Footer() {
 
         <a
           href={`mailto:${profile.contact.email}`}
-          className="mt-8 inline-block border-[3px] border-paper bg-pink px-8 py-4 font-display text-sm tracking-wide text-white shadow-[6px_6px_0_0_var(--color-paper)] transition-transform hover:-translate-y-0.5"
+          className="btn-pop panel-solid mt-8 inline-block bg-pink px-8 py-4 font-display text-sm tracking-wide text-white"
         >
           {t.footer.ctaButton} →
         </a>
       </div>
 
-      <div className="relative overflow-hidden border-y-2 border-paper/15 bg-yellow py-3 text-ink" aria-hidden>
+      <div className="relative overflow-hidden border-y-[3px] border-ink bg-yellow py-3 text-ink dark:border-paper" aria-hidden>
         <div className="marquee-track flex w-max">
           {[...words, ...words, ...words, ...words].map((word, i) => (
             <span key={i} className="mx-4 flex items-center gap-4 font-display text-sm">

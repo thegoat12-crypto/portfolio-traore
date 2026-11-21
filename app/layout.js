@@ -42,15 +42,13 @@ export const viewport = {
   ],
 };
 
-// Exécuté avant l'affichage : applique le thème, la langue enregistrée et
-// saute l'intro si elle a déjà été vue pendant la session (ou si l'animation est réduite).
+// Exécuté avant l'affichage : applique le thème et la langue enregistrés (pas de flash).
 const bootScript = `(function(){try{
 var d=document.documentElement;
 var t=localStorage.getItem("theme");
 if(t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches)d.classList.add("dark");
 var l=localStorage.getItem("lang");
 if(l==="fr"||l==="en")d.lang=l;
-if(sessionStorage.getItem("splash-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)d.dataset.splash="off";
 }catch(e){}})();`;
 
 const personJsonLd = {
