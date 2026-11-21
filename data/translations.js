@@ -136,10 +136,11 @@ export const translations = {
       title: "PROJETS",
       viewGithub: "Voir le code",
       noRepo: "Code non public",
+      caseStudy: "Lire l'étude de cas",
       prev: "Image précédente",
       next: "Image suivante",
       slide: "Image",
-      illustration: "Illustration",
+      illustration: "Maquette illustrative",
       items: [
         {
           title: "Chômage des jeunes femmes en Côte d'Ivoire",
@@ -162,7 +163,7 @@ export const translations = {
         {
           title: "Oquartier",
           year: "2024 · Mobile",
-          text: "Application mobile qui met en relation les résidents d'un quartier avec des prestataires de services de proximité.",
+          text: "Projet de groupe : application mobile Flutter qui met en relation les résidents d'un quartier avec des prestataires de services de proximité (recherche par service, carte, réservation). Le code n'étant plus disponible, les images sont des maquettes illustratives.",
           sfx: "DING!",
         },
       ],
@@ -352,10 +353,11 @@ export const translations = {
       title: "PROJECTS",
       viewGithub: "View the code",
       noRepo: "Code not public",
+      caseStudy: "Read the case study",
       prev: "Previous image",
       next: "Next image",
       slide: "Image",
-      illustration: "Illustration",
+      illustration: "Illustrative mock-up",
       items: [
         {
           title: "Youth female unemployment in Côte d'Ivoire",
@@ -378,7 +380,7 @@ export const translations = {
         {
           title: "Oquartier",
           year: "2024 · Mobile",
-          text: "Mobile app connecting neighbourhood residents with local service providers.",
+          text: "Group project: a Flutter mobile app connecting neighbourhood residents with local service providers (search by service, map, booking). The code is no longer available, so the images are illustrative mock-ups.",
           sfx: "DING!",
         },
       ],
