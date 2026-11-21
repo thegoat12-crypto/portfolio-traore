@@ -2,18 +2,17 @@
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
-export default function Reveal({ children, className = "", delay = 0 }) {
+// Fait apparaître son contenu quand il entre à l'écran (en 4 images, style « on twos »).
+export default function Reveal({ children, className = "", delay = 0, as: Tag = "div" }) {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <div
+    <Tag
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      } ${className}`}
+      className={`reveal ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"} ${className}`}
     >
       {children}
-    </div>
+    </Tag>
   );
 }

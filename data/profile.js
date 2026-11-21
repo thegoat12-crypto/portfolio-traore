@@ -1,80 +1,47 @@
+// Faits qui ne changent pas d'une langue à l'autre.
+// Tous les textes affichés (titres, descriptions, dates) sont dans data/translations.js.
+
 export const profile = {
   name: "Zié Mohamed Allassane Junior Traoré",
   legalName: "TRAORÉ Zié Mohamed Allassane Junior",
   shortName: "Zié Traoré Mhd .jr",
   initials: "TZM",
+  timeZone: "Africa/Abidjan",
+
+  // Déposez le PDF dans /public puis indiquez son chemin, ex. "/cv-zie-traore.pdf".
+  // Tant que la valeur est null, le bouton « Télécharger mon CV » est masqué.
+  cv: null,
+
+  // Déposez la photo dans /public puis indiquez son chemin, ex. "/photo-zie.jpg".
+  // Tant que la valeur est null, un portrait illustré (initiales en trame) est affiché.
+  photo: null,
 
   contact: {
     email: "ziemohamedallassanejuniortraor@gmail.com",
     phone: "+225 07 89 39 24 54",
     location: "Abidjan, Côte d'Ivoire",
     linkedin: "https://linkedin.com/in/traore-zie-mohamed-allassane-junior",
+    linkedinLabel: "linkedin.com/in/traore-zie-mohamed-allassane-junior",
     github: "https://github.com/thegoat12-crypto",
+    githubLabel: "github.com/thegoat12-crypto",
   },
 
+  // `key` renvoie au libellé traduit dans translations.skills.categories
   skills: [
-  { category: "Langages", items: ["Python", "JavaScript", "Dart", "SQL", "HTML", "CSS", "R"] },
-  { category: "Frameworks", items: ["Django", "Laravel", "React", "Next.js", "Flutter"] },
-  { category: "Bases de données", items: ["PostgreSQL", "MySQL"] },
-  { category: "Data science & IA", items: ["Pandas", "NumPy", "Matplotlib", "Régression linéaire"] },
-  { category: "Outils", items: ["Git/GitHub", "Docker", "Vercel"] },
-],
-
-  experience: [
-    {
-      period: "Déc. 2024 — Jan. 2026",
-      role: "Stagiaire consultant junior",
-      org: "Blo — secteur bancaire, GRC",
-      description: "Configuration de formulaires et modélisation/automatisation de processus métiers sur la solution SoftExpert, avec déploiement en environnements clients. Gestion de la création d'utilisateurs et des droits d'accès.",
-    },
-    {
-      period: "2023 (3 mois)",
-      role: "Stagiaire développeur",
-      org: "Ebenyx Technologies",
-      description: "Développement de projets utilisant Java et Angular JSF ; renforcement des compétences techniques et adaptation à un environnement de travail dynamique.",
-    },
+    { key: "languages", items: ["Python", "JavaScript", "Dart", "SQL", "HTML", "CSS", "R"] },
+    { key: "frameworks", items: ["Django", "Laravel", "React", "Next.js", "Flutter"] },
+    { key: "databases", items: ["PostgreSQL", "MySQL"] },
+    { key: "data", items: ["Pandas", "NumPy", "Matplotlib", "Régression linéaire"] },
+    { key: "tools", items: ["Git/GitHub", "Docker", "Vercel"] },
   ],
 
-  achievements: [
-    {
-      period: "Mai 2026",
-      title: "Hackathon Data for Development — World Data Lab",
-      description: "Analyse et prévision (2025–2035) du chômage des jeunes femmes en Côte d'Ivoire. Nettoyage et agrégation de données, modélisation par régression linéaire (OLS, IC 95%), recommandations de politiques publiques.",
-    },
-    {
-      period: "2025",
-      title: "La Borne Interactive Culturelle — 2ᵉ place",
-      description: "Projet ESATIC — IoT. Conception et installation de bornes interactives intelligentes dédiées à la promotion de l'histoire et de la culture de la Côte d'Ivoire.",
-    },
-  ],
-
+  // Liens et technos des projets, dans le même ordre que translations.projects.items.
+  // github: null → pas de bouton (dépôt privé ou inexistant).
   projects: [
-    {
-      title: "Parfumerie de luxe",
-      year: "2026",
-      stack: ["Next.js", "React", "Django", "PostgreSQL"],
-      description: "Plateforme e-commerce haut de gamme dédiée aux parfums de luxe et de niche, accessible sur le web et mobile.",
-      github: "https://github.com/thegoat12-crypto",
-    },
-    {
-      title: "Oquartier",
-      year: "2024",
-      stack: ["Flutter", "Dart"],
-      description: "Application mobile qui met en relation les résidents d'un quartier avec des prestataires de services de proximité.",
-      github: "https://github.com/thegoat12-crypto",
-    },
-    {
-      title: "Gestion de flotte automobile",
-      year: "2024 · Mémoire de licence",
-      stack: ["Django", "PostgreSQL"],
-      description: "Application web de gestion de flotte automobile. Projet validé pour l'obtention de la Licence en Informatique et Génie Logiciel.",
-      github: "https://github.com/thegoat12-crypto",
-    },
-  ],
-
-  education: [
-    { year: "2025", title: "Master 1 Big Data Intelligence for Human Augmented Reality (BIHAR)", org: "ESATIC" },
-    { year: "2024", title: "Licence en Informatique et Génie Logiciel", org: "Institut Ivoirien de Technologie (IIT)" },
-    { year: "2021", title: "Baccalauréat Série C", org: "Collège Moderne Espérance de Daloa" },
+    { id: "parfumerie", stack: ["Next.js", "React", "Django", "PostgreSQL"], github: "https://github.com/thegoat12-crypto/perfume-ecommerce", color: "pink" },
+    { id: "oquartier", stack: ["Flutter", "Dart"], github: null, color: "cyan" },
+    { id: "flotte", stack: ["Django", "PostgreSQL"], github: null, color: "yellow" },
   ],
 };
+
+export const skillCount = profile.skills.reduce((n, group) => n + group.items.length, 0);

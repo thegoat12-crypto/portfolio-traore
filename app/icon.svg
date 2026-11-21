@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#0a0a12"/>
+  <g stroke="#ff2e88" stroke-width="1.5" fill="none" opacity="0.55">
+    <line x1="32" y1="32" x2="32" y2="2"/>
+    <line x1="32" y1="32" x2="62" y2="32"/>
+    <line x1="32" y1="32" x2="2" y2="32"/>
+    <line x1="32" y1="32" x2="32" y2="62"/>
+    <circle cx="32" cy="32" r="14"/>
+    <circle cx="32" cy="32" r="24"/>
+  </g>
+  <text x="32" y="43" text-anchor="middle" font-family="Impact, 'Arial Narrow', sans-serif" font-size="30" font-weight="900" fill="#00c2d1" transform="translate(2 2)">TZ</text>
+  <text x="32" y="43" text-anchor="middle" font-family="Impact, 'Arial Narrow', sans-serif" font-size="30" font-weight="900" fill="#f5f3ec">TZ</text>
+</svg>

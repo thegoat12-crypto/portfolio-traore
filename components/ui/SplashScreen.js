@@ -1,24 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { profile } from "@/data/profile";
 import { SiPython, SiReact, SiDjango } from "react-icons/si";
 
-function PortalO({ color = "bg-pink" }) {
+const MIN_DURATION = 1800;
+const FADE_DURATION = 450;
+
+// Le « O » de TRAORÉ : un portail suspendu à un fil de toile
+function PortalO() {
   return (
-    <span className="relative inline-block align-middle" style={{ width: "0.62em", height: "0.62em" }}>
-      <span className={`absolute left-1/2 -translate-x-1/2 bottom-full w-[3px] ${color}`} style={{ height: "45vh" }} />
-      <span className={`absolute left-1/2 -translate-x-1/2 top-full w-[3px] ${color}`} style={{ height: "45vh" }} />
+    <span className="relative inline-block align-middle" style={{ width: "0.62em", height: "0.62em" }} aria-hidden>
+      <span className="absolute left-1/2 -translate-x-1/2 bottom-full w-[3px] bg-pink" style={{ height: "60vh" }} />
       <span className="absolute inset-0 rounded-full border-[5px] border-current" />
+      <span className="absolute inset-[22%] rounded-full border-2 border-cyan" />
     </span>
   );
 }
 
-// petit autocollant rond, incliné, avec une icône dedans
-function Sticker({ Icon, color, className }) {
+function Sticker({ Icon, color, className, rotate }) {
   return (
-    <div className={`absolute panel-solid flex h-14 w-14 items-center justify-center rounded-full bg-paper dark:bg-ink ${className}`}>
+    <div
+      className={`wobble absolute panel-solid flex h-14 w-14 items-center justify-center rounded-full bg-paper ${className}`}
+      style={{ "--r": rotate }}
+      aria-hidden
+    >
       <Icon className={color} size={22} />
     </div>
   );
@@ -26,87 +33,102 @@ function Sticker({ Icon, color, className }) {
 
 export default function SplashScreen() {
   const { t } = useLanguage();
-  const [visible, setVisible] = useState(true);
-  const [hiding, setHiding] = useState(false);
+  const [state, setState] = useState("shown"); // shown → hiding → gone
+  const done = useRef(false);
 
-  useEffect(() => {
-    const start = Date.now();
-    const minDuration = 2600;
-
-    function finish() {
-      const elapsed = Date.now() - start;
-      const wait = Math.max(minDuration - elapsed, 0);
-      setTimeout(() => {
-        setHiding(true);
-        setTimeout(() => setVisible(false), 600);
-      }, wait);
-    }
-
-    if (document.readyState === "complete") {
-      finish();
-    } else {
-      window.addEventListener("load", finish);
-      return () => window.removeEventListener("load", finish);
-    }
+  const finish = useCallback((delay = 0) => {
+    if (done.current) return;
+    done.current = true;
+    try {
+      sessionStorage.setItem("splash-seen", "1");
+    } catch {}
+    setTimeout(() => {
+      setState("hiding");
+      setTimeout(() => setState("gone"), FADE_DURATION);
+    }, delay);
   }, []);
 
-  if (!visible) return null;
+  useEffect(() => {
+    // déjà vue cette session (le script du <head> a posé data-splash="off") : on retire tout de suite
+    if (document.documentElement.dataset.splash === "off") {
+      done.current = true;
+      const id = setTimeout(() => setState("gone"), 0);
+      return () => clearTimeout(id);
+    }
+
+    const start = performance.now();
+    const onLoad = () => finish(Math.max(MIN_DURATION - (performance.now() - start), 0));
+    const onKey = (e) => e.key === "Escape" && finish();
+
+    if (document.readyState === "complete") onLoad();
+    else window.addEventListener("load", onLoad);
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      window.removeEventListener("load", onLoad);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [finish]);
+
+  if (state === "gone") return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex flex-col justify-center bg-ink text-paper px-8 md:px-20 transition-opacity duration-600 overflow-hidden ${
-        hiding ? "opacity-0 pointer-events-none" : "opacity-100"
+      className={`splash fixed inset-0 z-[100] flex flex-col justify-center overflow-hidden bg-ink px-8 text-paper transition-opacity md:px-20 ${
+        state === "hiding" ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
+      style={{ transitionDuration: `${FADE_DURATION}ms` }}
+      onClick={() => finish()}
+      role="presentation"
     >
-      <div className="halftone text-pink absolute -top-24 -left-24 h-72 w-72 rounded-full" />
-      <div className="halftone text-cyan absolute -bottom-24 -right-24 h-72 w-72 rounded-full" />
+      <div className="halftone absolute -left-24 -top-24 h-72 w-72 rounded-full text-pink" />
+      <div className="halftone absolute -bottom-24 -right-24 h-72 w-72 rounded-full text-cyan" />
 
-      {/* badge "univers", en haut à gauche, incliné comme un tampon */}
-      <div className="panel-solid absolute top-8 left-8 -rotate-6 bg-yellow text-ink px-3 py-1 font-display text-xs tracking-wide">
+      <div className="panel-solid absolute left-8 top-8 -rotate-6 bg-yellow px-3 py-1 font-display text-xs tracking-wide text-ink">
         {t.splash.earth}
       </div>
 
-      {/* badge rond en haut à droite */}
-      <div className="absolute top-8 right-8 h-14 w-14 rounded-full border-2 border-current/40 flex items-center justify-center text-[10px] font-display leading-tight text-center opacity-70">
+      <div className="absolute right-8 top-8 flex h-14 w-14 items-center justify-center rounded-full border-2 border-current/40 font-display text-[10px] opacity-70">
         2026
       </div>
 
-      {/* stickers technos éparpillés */}
-      <Sticker Icon={SiReact} color="text-cyan" className="top-1/3 left-6 rotate-[-8deg] hidden sm:flex" />
-      <Sticker Icon={SiPython} color="text-yellow" className="top-1/4 right-16 rotate-[10deg] hidden md:flex" />
-      <Sticker Icon={SiDjango} color="text-pink" className="bottom-1/4 left-16 rotate-[6deg] hidden lg:flex" />
+      <Sticker Icon={SiReact} color="text-cyan" className="left-6 top-1/3 hidden sm:flex" rotate="-8deg" />
+      <Sticker Icon={SiPython} color="text-yellow" className="right-16 top-1/4 hidden md:flex" rotate="10deg" />
+      <Sticker Icon={SiDjango} color="text-pink" className="bottom-1/4 left-16 hidden lg:flex" rotate="6deg" />
 
-      <p className="italic text-pink text-sm mb-1">{t.splash.welcome}</p>
+      <div className="relative">
+        {/* l'encadré passe au-dessus du fil : le texte n'est plus coupé */}
+        <p className="caption-box relative z-10 mb-3">{t.splash.welcome}</p>
 
-      <h1 className="font-display font-bold leading-[0.85] text-6xl sm:text-7xl md:text-8xl">
-        ZIÉ TRA
-        <PortalO color="bg-pink" />
-        RÉ
-      </h1>
+        <p className="misprint font-display text-6xl font-bold leading-[0.85] sm:text-7xl md:text-8xl" aria-label="Zié Traoré">
+          ZIÉ TRA
+          <PortalO />
+          RÉ
+        </p>
 
-      <p className="mt-3 text-cyan font-display text-xl sm:text-2xl">
-        {t.hero.role}
-      </p>
+        <p className="mt-3 font-display text-xl text-cyan sm:text-2xl">{t.hero.role}</p>
 
-      {/* bulle de dialogue façon BD */}
-      <div className="panel-solid relative inline-block mt-6 max-w-xs bg-yellow text-ink px-4 py-3 font-display text-sm rotate-[-1deg]">
-        {t.splash.speech}
+        <div className="panel-solid relative mt-6 inline-block max-w-xs -rotate-1 bg-yellow px-4 py-3 font-display text-sm text-ink">
+          {t.splash.speech}
+          <span className="absolute -bottom-[14px] left-8 h-0 w-0 border-x-[10px] border-t-[12px] border-x-transparent border-t-ink" aria-hidden />
+        </div>
+
+        <p className="mt-10 font-display text-xs uppercase tracking-widest opacity-60">{t.splash.edition}</p>
       </div>
-
-      <p className="mt-10 font-display text-xs tracking-widest opacity-60 uppercase">
-        {t.splash.edition}
-      </p>
 
       <div className="absolute bottom-8 right-8 text-right text-xs opacity-60">
         <p className="font-display">{profile.shortName}</p>
-        <p>github.com/thegoat12-crypto</p>
+        <p>{profile.contact.githubLabel}</p>
       </div>
 
-      <div className="absolute bottom-8 left-8 flex items-center gap-3 text-xs opacity-50">
-        <div className="w-24 h-[3px] border border-current/30 overflow-hidden">
-          <div className="h-full bg-pink animate-loading-bar" />
+      <div className="absolute bottom-8 left-8 flex flex-col gap-2 text-xs">
+        <div className="flex items-center gap-3 opacity-60">
+          <div className="h-[4px] w-24 overflow-hidden border border-current/30">
+            <div className="animate-loading-bar h-full bg-pink" />
+          </div>
+          {t.splash.loading}
         </div>
-        {t.loading}
+        <span className="opacity-40">{t.splash.skip}</span>
       </div>
     </div>
   );
