@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Portfolio — Zié Traoré
 
-## Getting Started
+Portfolio personnel au style comics (inspiration « Spider-Verse » : impression décalée, trames de points, encadrés narratifs, animations saccadées à 12 images/seconde). Next.js 16, React 19, Tailwind CSS 4. Bilingue français / anglais, thème clair / sombre.
 
-First, run the development server:
+## Lancer en local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Puis ouvrir http://localhost:3000.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Modifier le contenu
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Quoi | Où |
+|---|---|
+| Textes (FR et EN) : bio, expériences, projets, formation | `data/translations.js` |
+| Contact, compétences, liens GitHub des projets, CV, photo | `data/profile.js` |
+| Icônes des compétences | `data/skillIcons.js` |
 
-## Learn More
+### Ajouter le CV
 
-To learn more about Next.js, take a look at the following resources:
+1. Déposer le PDF dans `public/`, par exemple `public/cv-zie-traore.pdf`.
+2. Dans `data/profile.js`, mettre `cv: "/cv-zie-traore.pdf"`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Le bouton « Télécharger mon CV » apparaît alors dans l'en-tête.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Ajouter la photo
 
-## Deploy on Vercel
+1. Déposer l'image dans `public/`, par exemple `public/photo-zie.jpg` (format portrait 3:4 conseillé).
+2. Dans `data/profile.js`, mettre `photo: "/photo-zie.jpg"`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+La photo remplace le portrait illustré et reçoit automatiquement le traitement « trame rose ».
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Ajouter les logos des écoles et entreprises
+
+1. Déposer les fichiers dans `public/logos/` (PNG ou SVG, carré, fond transparent ou blanc), par exemple `public/logos/esatic.png`.
+2. Dans `data/profile.js`, section `orgs`, remplir le champ `logo` de l'organisation : `logo: "/logos/esatic.png"`.
+
+Tant qu'un logo n'est pas fourni, un badge avec les initiales s'affiche à sa place.
+
+### Remplacer les illustrations des projets par de vraies captures
+
+1. Déposer les captures dans `public/projets/`, par exemple `public/projets/parfumerie-1.png`, `parfumerie-2.png`…
+2. Dans `data/profile.js`, remplir `images` du projet : `images: ["/projets/parfumerie-1.png", "/projets/parfumerie-2.png"]`.
+
+Les captures défilent automatiquement dans la carte du projet (pause au survol).
+
+### Ajouter un projet
+
+1. Ajouter un objet dans `profile.projects` (`id`, `stack`, `github` ou `null`, `color` : `pink`, `cyan` ou `yellow`, `kind` : `web`, `mobile` ou `dashboard`, `images`).
+2. Ajouter le texte correspondant, **au même rang**, dans `translations.fr.projects.items` et `translations.en.projects.items` (`title`, `year`, `text`, `sfx` = l'onomatopée affichée au survol).
+
+## Déploiement
+
+Sur Vercel, l'URL du site est détectée automatiquement pour les aperçus de partage (image générée par `app/opengraph-image.js`). Sur un autre hébergeur, définir la variable `NEXT_PUBLIC_SITE_URL`.
+
+## Vérifications
+
+```bash
+npm run lint
+npm run build
+```
+
+## Sécurité
+
+- Next.js maintenu à jour (`npm audit` doit afficher 0 vulnérabilité).
+- En-têtes de sécurité dans `next.config.mjs` : CSP stricte (aucune ressource externe), HSTS, anti-iframe, `nosniff`, `Referrer-Policy`, `Permissions-Policy`.
+- Aucune clé ni secret dans le dépôt ; les fichiers `.env*` sont ignorés par Git.

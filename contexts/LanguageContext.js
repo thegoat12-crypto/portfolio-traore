@@ -1,28 +1,25 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { translations } from "@/data/translations";
+import { useLangValue, setLang } from "@/lib/clientStores";
 
 const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState("fr");
+  const lang = useLangValue();
 
+  // garde l'attribut lang du <html> aligné (lecteurs d'écran, traduction auto)
   useEffect(() => {
-    const saved = localStorage.getItem("lang");
-    if (saved) setLang(saved);
-  }, []);
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   function toggleLang() {
-    const next = lang === "fr" ? "en" : "fr";
-    setLang(next);
-    localStorage.setItem("lang", next);
+    setLang(lang === "fr" ? "en" : "fr");
   }
 
-  const t = translations[lang];
-
   return (
-    <LanguageContext.Provider value={{ lang, toggleLang, t }}>
+    <LanguageContext.Provider value={{ lang, toggleLang, t: translations[lang] }}>
       {children}
     </LanguageContext.Provider>
   );

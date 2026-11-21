@@ -1,30 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { TbSun, TbMoon } from "react-icons/tb";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useIsDark, setDark } from "@/lib/clientStores";
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    setIsDark(document.documentElement.classList.contains("dark"));
-  }, []);
-
-  function toggleTheme() {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("theme", next ? "dark" : "light");
-  }
+  const { t } = useLanguage();
+  const isDark = useIsDark();
 
   return (
     <button
-      onClick={toggleTheme}
-      aria-label="Changer de thème"
-      className="panel-solid flex items-center gap-1.5 rounded-full bg-yellow px-3 py-1.5 font-display text-xs text-ink"
+      type="button"
+      onClick={() => setDark(!isDark)}
+      aria-label={isDark ? t.meta.themeToLight : t.meta.themeToDark}
+      className="btn-pop panel-solid flex items-center gap-1.5 rounded-full bg-yellow px-3 py-1.5 font-display text-xs text-ink"
     >
-      {isDark ? <TbSun size={14} /> : <TbMoon size={14} />}
-      {isDark ? "CLAIR" : "SOMBRE"}
+      {isDark ? <TbSun size={14} aria-hidden /> : <TbMoon size={14} aria-hidden />}
+      {isDark ? t.meta.themeLight : t.meta.themeDark}
     </button>
   );
 }
