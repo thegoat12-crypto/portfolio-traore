@@ -58,7 +58,7 @@ Sur Vercel, l'URL du site est détectée automatiquement pour les aperçus de pa
 
 ## Documentation
 
-Le guide complet du code est dans [`docs/GUIDE.md`](docs/GUIDE.md).
+Le guide complet du code est dans [`docs/GUIDE.md`](docs/GUIDE.md). Le résumé du projet à donner à une IA est dans [`docs/CONTEXTE-PROJET.md`](docs/CONTEXTE-PROJET.md).
 
 ## Vérifications
 
