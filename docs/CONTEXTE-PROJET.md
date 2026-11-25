@@ -59,7 +59,7 @@ Style **comics « Spider-Verse » original** (aucun logo, nom ou image Marvel) :
 1. Photo **portrait verticale (format 3:4)**, au moins **1000 px de haut**, de préférence en `.jpg` ou `.webp`.
 2. Remplacer le fichier **`public/photo-zie.jpg`** par la nouvelle photo, **avec le même nom** → rien d'autre à modifier.
    - Si le nom change (ex. `photo-zie-2026.jpg`), modifier la ligne `photo: "/photo-zie.jpg",` dans **`data/profile.js`**.
-3. Où elle apparaît : Polaroid de la section Profil (`components/ui/Portrait.js`). Le personnage BD (`public/avatar-tzm.webp`, ligne `avatar:` de `data/profile.js`) reste dans l'intro et le Profil ; pour le remplacer, même procédure.
+3. Elle n'est plus affichée pour l'instant (vignette Polaroid retirée de `components/ui/Portrait.js`) : pour l'afficher à nouveau, demander à l'IA de la remettre dans le Profil. Le personnage BD (`public/avatar-tzm.webp`, ligne `avatar:` de `data/profile.js`) reste dans l'intro et le Profil ; pour le remplacer, même procédure.
 4. Vérifier avec `npm run dev`, puis Commit to main → Push origin.
 
 ## 5. Autre projet lié : sites de restaurants (« Restaurant Pro »)

@@ -799,6 +799,28 @@ h1, h2, h3, h4 {
   .cert-shine { display: none; }
 }
 
+/* ---------- Formation : badges qui tombent comme des flocons ---------- */
+
+@keyframes badge-fall {
+  from { transform: translate3d(0, -15vh, 0) rotate(0deg); }
+  to { transform: translate3d(var(--sway, 40px), 120vh, 0) rotate(var(--spin, 300deg)); }
+}
+
+.badge-flake {
+  position: absolute;
+  top: -10%;
+  animation: badge-fall linear infinite;
+  will-change: transform;
+}
+
+.badge-snow-paused .badge-flake {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge-snow { display: none; }
+}
+
 /* ---------- Barre de progression : un fil de toile qui suit le scroll ---------- */
 
 .scroll-progress {
