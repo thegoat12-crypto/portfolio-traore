@@ -45,6 +45,15 @@ export const profile = {
     { key: "tools", items: ["Git/GitHub", "Docker", "Vercel", "Ollama"] },
   ],
 
+  // Certifications et badges : kind "certificate" (image du certificat) ou "badge" (icône du badge).
+  // link : page de vérification (ou l'image en grand). Les titres traduits sont dans translations.certifications.items.
+  certifications: [
+    { id: "kaggle-pandas", issuer: "Kaggle", date: "2026-11-25", kind: "certificate", image: "/certifs/kaggle-pandas.webp", link: "/certifs/kaggle-pandas.webp", color: "cyan" },
+    { id: "kaggle-ml", issuer: "Kaggle", date: "2026-11-25", kind: "certificate", image: "/certifs/kaggle-ml.webp", link: "/certifs/kaggle-ml.webp", color: "pink" },
+    { id: "ms-powerbi-start", issuer: "Microsoft Learn", date: "2026-11-25", kind: "badge", image: "/certifs/ms-badge-1.webp", link: "https://learn.microsoft.com/api/achievements/share/fr-fr/TRAOREZIEMOHAMEDALLASSANEJUNIOR-8745/7JVPRDPZ?sharingId=1F755A3B42611BBD", color: "yellow" },
+    { id: "ms-powerbi-analytics", issuer: "Microsoft Learn", date: "2026-11-25", kind: "badge", image: "/certifs/ms-badge-2.webp", link: "https://learn.microsoft.com/api/achievements/share/fr-fr/TRAOREZIEMOHAMEDALLASSANEJUNIOR-8745/CA3RZ7C9?sharingId=1F755A3B42611BBD", color: "cyan" },
+  ],
+
   // Écoles et entreprises (Parcours et Formation).
   // logo: déposez le fichier dans /public/logos/ puis indiquez son chemin,
   // ex. "/logos/esatic.png" (PNG ou SVG, fond transparent ou blanc, carré de préférence).

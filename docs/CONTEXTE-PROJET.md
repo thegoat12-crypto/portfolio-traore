@@ -50,7 +50,7 @@ Style **comics « Spider-Verse » original** (aucun logo, nom ou image Marvel) :
 
 ## 3. Ce qui reste à faire
 - [ ] **Remplacer la photo du CV** par une belle photo en veste (voir section 4).
-- [ ] Section **Certifications** (Kaggle, Microsoft Learn Power BI, IBM, Google, Anthropic Academy…) quand je les aurai.
+- [x] Section **Certifications** (Kaggle Pandas, Kaggle Intro to ML, 2 badges Microsoft Learn Power BI — nov. 2026). Pour en ajouter : `profile.certifications` + `translations.certifications.items` + image dans `public/certifs/`.
 - [ ] CV sans adresse postale détaillée (facultatif, par précaution).
 - [ ] Publier le code de Monster sur GitHub (vérifier qu'il ne contient aucune clé).
 - [ ] Nom de domaine personnel (facultatif).
