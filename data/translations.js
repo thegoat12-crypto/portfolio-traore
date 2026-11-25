@@ -25,6 +25,7 @@ export const translations = {
       experience: "Parcours",
       projets: "Projets",
       formation: "Formation",
+      certifications: "Certifications",
       contact: "Contact",
     },
     splash: {
@@ -181,8 +182,24 @@ export const translations = {
         { year: "2024", title: "Licence en Informatique et Génie Logiciel", org: "Institut Ivoirien de Technologie (IIT)", orgKey: "iit", note: "Mémoire : système de gestion de flotte automobile (Django)" },
       ],
     },
-    contact: {
+    certifications: {
       caption: "ÉPISODE 06",
+      eyebrow: "Les super-pouvoirs débloqués",
+      title: "CERTIFICATIONS",
+      verified: "VALIDÉ",
+      view: "Voir le certificat",
+      verify: "Vérifier le badge",
+      certificate: "Certificat",
+      badge: "Badge",
+      items: {
+        "kaggle-pandas": "Pandas",
+        "kaggle-ml": "Intro to Machine Learning",
+        "ms-powerbi-start": "Commencer à créer avec Power BI",
+        "ms-powerbi-analytics": "Explorer le processus d'analyse qui transforme les données en insights",
+      },
+    },
+    contact: {
+      caption: "ÉPISODE 07",
       eyebrow: "Dernier épisode",
       title: "CONTACT",
       subtitle: "Disponible immédiatement pour un stage de six mois en data, Big Data ou IA. Discutons de votre projet ou de votre équipe.",
@@ -243,6 +260,7 @@ export const translations = {
       experience: "Journey",
       projets: "Projects",
       formation: "Education",
+      certifications: "Certifications",
       contact: "Contact",
     },
     splash: {
@@ -399,8 +417,24 @@ export const translations = {
         { year: "2024", title: "Bachelor's degree in Computer Science & Software Engineering", org: "Ivorian Institute of Technology (IIT)", orgKey: "iit", note: "Thesis: automotive fleet management system (Django)" },
       ],
     },
-    contact: {
+    certifications: {
       caption: "EPISODE 06",
+      eyebrow: "Superpowers unlocked",
+      title: "CERTIFICATIONS",
+      verified: "VERIFIED",
+      view: "View certificate",
+      verify: "Verify badge",
+      certificate: "Certificate",
+      badge: "Badge",
+      items: {
+        "kaggle-pandas": "Pandas",
+        "kaggle-ml": "Intro to Machine Learning",
+        "ms-powerbi-start": "Get started building with Power BI",
+        "ms-powerbi-analytics": "Discover data analysis: turning data into insights",
+      },
+    },
+    contact: {
+      caption: "EPISODE 07",
       eyebrow: "Final episode",
       title: "CONTACT",
       subtitle: "Available now for a six-month internship in data, Big Data or AI. Let's talk about your project or your team.",

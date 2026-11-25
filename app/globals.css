@@ -759,6 +759,46 @@ h1, h2, h3, h4 {
   to { transform: scaleY(1); }
 }
 
+/* ---------- Certifications : tampon « VALIDÉ » et brillance ---------- */
+
+.cert-card {
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out);
+}
+
+.cert-card:hover {
+  transform: translateY(-8px) rotate(0deg) !important;
+}
+
+/* reflet holographique qui balaie la carte au survol */
+.cert-shine {
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.55) 45%, rgba(0, 194, 209, 0.35) 52%, rgba(255, 46, 136, 0.3) 58%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.9s var(--ease-out);
+}
+
+.cert-card:hover .cert-shine {
+  transform: translateX(120%);
+}
+
+@supports (animation-timeline: view()) {
+  .cert-stamp {
+    animation: stamp linear both;
+    animation-timeline: view();
+    animation-range: entry 40% entry 100%;
+  }
+}
+
+@keyframes stamp {
+  from { opacity: 0; transform: scale(2.4) rotate(-30deg); }
+  70% { opacity: 1; transform: scale(0.9) rotate(-10deg); }
+  to { opacity: 1; transform: scale(1) rotate(-12deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-stamp { animation: none !important; transform: rotate(-12deg); }
+  .cert-shine { display: none; }
+}
+
 /* ---------- Barre de progression : un fil de toile qui suit le scroll ---------- */
 
 .scroll-progress {
