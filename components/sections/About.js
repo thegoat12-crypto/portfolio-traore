@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
+import SectionFX from "@/components/ui/SectionFX";
 import Reveal from "@/components/ui/Reveal";
 import Portrait from "@/components/ui/Portrait";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -11,7 +12,8 @@ export default function About() {
   const { t } = useLanguage();
 
   return (
-    <section id="profil" className="section-alt px-6 py-24">
+    <section id="profil" className="section-alt relative overflow-x-clip px-6 py-24">
+      <SectionFX side="left" />
       <div className="relative mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-[1fr_1.4fr]">
         <Reveal>
           <Portrait alt={t.about.portraitAlt} className="mx-auto max-w-xs -rotate-2" />

@@ -79,7 +79,7 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="relative overflow-hidden px-6 py-24">
+    <section id="contact" className="relative overflow-x-clip px-6 py-24">
       {/* décor : toile qui se dessine et trames qui dérivent */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <div className="drift halftone absolute -left-24 top-10 h-80 w-80 rounded-full text-pink !opacity-[0.12]" />

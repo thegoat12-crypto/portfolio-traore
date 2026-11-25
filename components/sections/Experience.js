@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import SectionHeading from "@/components/ui/SectionHeading";
+import SectionFX from "@/components/ui/SectionFX";
 import OrgLogo from "@/components/ui/OrgLogo";
 import ComicBook from "@/components/ui/ComicBook";
 import Link from "next/link";
@@ -34,7 +35,8 @@ export default function Experience() {
   const items = t.experience.items;
 
   return (
-    <section id="experience" className="section-alt overflow-x-clip px-6 py-24">
+    <section id="experience" className="section-alt relative overflow-x-clip px-6 py-24">
+      <SectionFX side="right" a="text-cyan" b="text-pink" />
       <div className="relative mx-auto max-w-5xl">
         <SectionHeading caption={t.experience.caption} eyebrow={t.experience.eyebrow} title={t.experience.title} />
 
