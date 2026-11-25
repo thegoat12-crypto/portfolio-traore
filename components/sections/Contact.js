@@ -79,8 +79,23 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="px-6 py-24">
-      <div className="mx-auto max-w-5xl">
+    <section id="contact" className="relative overflow-hidden px-6 py-24">
+      {/* décor : toile qui se dessine et trames qui dérivent */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="drift halftone absolute -left-24 top-10 h-80 w-80 rounded-full text-pink !opacity-[0.12]" />
+        <div className="drift halftone absolute -right-20 bottom-0 h-96 w-96 rounded-full text-cyan !opacity-[0.12]" style={{ animationDelay: "-12s" }} />
+        <svg viewBox="0 0 400 400" className="absolute -right-24 -top-24 h-[26rem] w-[26rem] text-pink opacity-25" fill="none">
+          <g stroke="currentColor" strokeWidth="1.5">
+            {[0, 45, 90, 135, 180, 225, 270, 315].map((d) => (
+              <line key={d} className="web-line" x1="200" y1="200" x2={200 + 200 * Math.cos((d * Math.PI) / 180)} y2={200 + 200 * Math.sin((d * Math.PI) / 180)} />
+            ))}
+            {[60, 120, 180].map((r) => (
+              <circle key={r} className="web-line" cx="200" cy="200" r={r} />
+            ))}
+          </g>
+        </svg>
+      </div>
+      <div className="relative mx-auto max-w-5xl">
         <SectionHeading caption={t.contact.caption} eyebrow={t.contact.eyebrow} title={t.contact.title} />
         <p className="mt-4 max-w-lg opacity-75">{t.contact.subtitle}</p>
 
