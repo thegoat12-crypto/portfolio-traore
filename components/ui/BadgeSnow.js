@@ -33,7 +33,7 @@ export default function BadgeSnow() {
 
   if (!list.length) return null;
   return (
-    <div ref={ref} className={`badge-snow pointer-events-none absolute inset-0 ${visible ? "" : "badge-snow-paused"}`} aria-hidden>
+    <div ref={ref} className={`badge-snow pointer-events-none absolute inset-0 overflow-hidden ${visible ? "" : "badge-snow-paused"}`} aria-hidden>
       {FLAKES.map((f, i) => {
         const c = list[i % list.length];
         return (

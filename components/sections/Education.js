@@ -5,13 +5,15 @@ import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CredentialSeal from "@/components/ui/CredentialSeal";
 import OrgLogo from "@/components/ui/OrgLogo";
+import SectionFX from "@/components/ui/SectionFX";
 import BadgeSnow from "@/components/ui/BadgeSnow";
 
 export default function Education() {
   const { t } = useLanguage();
 
   return (
-    <section id="formation" className="section-alt relative overflow-hidden px-6 py-24">
+    <section id="formation" className="section-alt relative overflow-x-clip px-6 py-24">
+      <SectionFX side="left" a="text-cyan" b="text-pink" />
       <BadgeSnow />
       <div className="relative mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-[1fr_auto]">
         <div>
