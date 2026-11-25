@@ -184,7 +184,7 @@ export const translations = {
     },
     certifications: {
       caption: "ÉPISODE 06",
-      eyebrow: "Les super-pouvoirs débloqués",
+      eyebrow: "Certifications · les super-pouvoirs débloqués",
       title: "CERTIFICATIONS",
       verified: "VALIDÉ",
       view: "Voir le certificat",
@@ -199,7 +199,7 @@ export const translations = {
       },
     },
     contact: {
-      caption: "ÉPISODE 07",
+      caption: "ÉPISODE 06",
       eyebrow: "Dernier épisode",
       title: "CONTACT",
       subtitle: "Disponible immédiatement pour un stage de six mois en data, Big Data ou IA. Discutons de votre projet ou de votre équipe.",
@@ -419,7 +419,7 @@ export const translations = {
     },
     certifications: {
       caption: "EPISODE 06",
-      eyebrow: "Superpowers unlocked",
+      eyebrow: "Certifications · superpowers unlocked",
       title: "CERTIFICATIONS",
       verified: "VERIFIED",
       view: "View certificate",
@@ -434,7 +434,7 @@ export const translations = {
       },
     },
     contact: {
-      caption: "EPISODE 07",
+      caption: "EPISODE 06",
       eyebrow: "Final episode",
       title: "CONTACT",
       subtitle: "Available now for a six-month internship in data, Big Data or AI. Let's talk about your project or your team.",
