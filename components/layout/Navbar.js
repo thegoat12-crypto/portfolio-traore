@@ -12,7 +12,6 @@ const links = [
   { href: "#experience", key: "experience" },
   { href: "#projets", key: "projets" },
   { href: "#formation", key: "formation" },
-  { href: "#certifications", key: "certifications" },
   { href: "#contact", key: "contact" },
 ];
 
